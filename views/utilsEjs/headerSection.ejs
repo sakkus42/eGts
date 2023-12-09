@@ -1,0 +1,55 @@
+
+<header class="header_section">
+    <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg custom_nav-container ">
+        <a class="navbar-brand" href="/">
+        <span>
+            <img src="../images/logo.png" id="logo" alt="logo">
+        </span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class=""> </span>
+        </button>   
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <!-- <li class="nav-item active">
+            <a class="nav-link" href="campaigns">Kampanyalar <span class="sr-only">(current)</span></a>
+            </li> -->
+            <li class="nav-item">
+                <a class="nav-link" href="/ "><i class="fa fa-home"></i></a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="/watches"> akıllı saat </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/headset"> Kulaklık </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/accessuar"> Aksesuar </a>
+          </li>
+            <!-- <li class="nav-item">
+            <a class="nav-link" href="about.html"> hakkımızda </a> => bu kısım iletişim kısmına dahil edilecek
+            </li> -->
+        </ul>
+            <div class="user_option-box">
+                <a href="/<%= typeof isLog !== "undefined" ? 'user/profile' : 'user' %>">
+                    <i class="bi bi-person" aria-hidden="true" ><%= typeof isLog !== "undefined" ? 'Hesabım' : 'Giriş Yap' %></i>
+                </a>
+                <a href="/basket">
+                    <i class="bi bi-cart" aria-hidden="true">Sepetim</i>
+                </a>
+
+                <button id="search" class="btn">
+                    <i  class="bi bi-search" aria-hidden="true"> Ara </i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <form class="searchInput" action="/search" method="get">
+        <input type="text" placeholder="Aramak istediğiniz ürün, model yada kategoriyi yazınız" class="form-control" name="serachKey" id="searchKey">
+        <button type="submit" class="btn " style="margin-left: 10px; background-color: var(--orange); color: white;">Ara</button>
+    </form>
+    </div>
+</header>

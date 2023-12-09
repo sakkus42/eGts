@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>E-GTS Kulaklık</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+</head>
+
+<style>
+
+</style>
+
+
+
+
+<body>
+    <div class="hero_area">
+      <%- include('utilsEjs/headerSection') %>
+      <div class="header-pb">Sepetim (<%= data.length %> ürün)</div>
+      <div class="cart-container">
+        <div class="left-container">
+          <% if (data.length == 0) { %>
+            <div class="basket-item">
+              <div class="basket-title">
+                <span style="opacity: 0.5;"> Herhangi Bir Ürün Yoktur </span>
+              </div>
+            </div>
+          <% } %>
+          <% var total1 = 0  %>
+          <% var totalOptions = 0  %>
+            <% data.some((element, index) => { %>
+              <% var totalOption = 0  %>
+              <div class="basket-item">
+                <div class="basket-img">
+                  <img src="<%= element.image %>" alt="" class="img-fluid">
+                </div>
+                <div class="basket-title">
+                    <span style="color: #435062!important; font-weight:600"><%= element.title.toUpperCase() %>  </span>
+                    <span style="color: #435062!important; font-weight:600">Renk: <%= element.color %> </span>
+                    <% if (element.prices != NaN || element.options.length != 0) { %>
+                      <% element.options.forEach((el, index) => { %>
+                        <% if (element.prices[index] != 0) { %>
+                          <% totalOption += element.prices[index] %>
+                          <span style="opacity: 0.8; color: #435062;">+ <%= el %> <%= element.prices[index] %>TL </span>                         
+                        <% } %>
+                      <% }) %>
+                    <% } %>
+                    <% if (element.giftContent) { %>
+                      <span style="opacity: 0.8; color: #435062;;">+ <%= element.giftContent %> </span>
+                    <% } %>
+                </div>
+                <div class="basket-price">
+                  <% if (element.oldPrice) { %>
+                   <span style="text-decoration: line-through;  color: rgba(255, 0, 0, 0.444); font-weight: 700; "><%= element.oldPrice%>TL</span>
+                   <% total1 += element.oldPrice * element.count%>
+                   <% } else { %>
+                      <% total1 += element.price * element.count%>
+                  <% } %>
+                  <span style="color: #435062!important; font-weight:600" ><%= element.price%>TL</span>
+                  <% if (totalOption != 0) { %>
+                    <span  style="color: #435062!important; font-weight:600" >+<%= totalOption %>TL</span>
+                    <% totalOptions += element.count ? element.count * totalOption : totalOption %>
+                  <% } %>
+                </div>
+                
+                <div class="basket-counter">
+                  <button onclick="counter('<%= element.title %>', -1, '<%= element.newId %>')" class="btn btn-light">
+                    <i class="bi-dash"></i>
+                  </button>
+                  <span> <%= element.count %> </span>
+                  <button onclick="counter('<%= element.title %>', 1, '<%= element.newId %>')" class="btn btn-light">
+                    <i class="bi-plus"></i>
+                  </button>
+                </div>
+                <div class="trash">
+                  <button onclick="counter('<%= element.title %>', '-<%= element.count %>', '<%= element.newId %>')" class="btn btn-light">
+                    <i class="bi bi-trash3-fill"></i>
+                  </button>
+                </div>
+                
+              </div>
+            <% }) %>
+        </div>
+        <div class="right-container">
+          <div class="basket-accept">
+            <button class="btn btn--orange">
+              Sepeti Onayla
+            </button>
+          </div>
+          <div class="basket-subtract">
+            <% if (total1 != total) { %>
+              <span style="text-decoration: line-through; opacity: 0.5; color: #435062!important; font-weight:600">Toplam Sipariş Ücreti: <%= total1 + totalOptions %>TL</span>          
+            <% } %>
+            <span style="color: #435062!important; font-weight:600"> Toplam Sipariş Ücreti: <%= total + totalOptions %>TL</span>
+          </div>
+        </div>
+      </div>
+      <section class="shop_section layout_padding">
+        <div class="containerProduct">
+          <div class="heading_container heading_center">
+            <h2>
+              Önerilenler
+            </h2>
+          </div>
+          <div class="rowProduct">
+            <%- include('utilsEjs/row', { data: imported, end: 4, name: 'Önerilenler' }) %>
+          </div>
+          <!-- <div class="btn-box">
+            <a href="headset">
+              Tümünü Göster
+            </a>
+          </div> -->
+        </div>
+      </section>
+      <footer class="footer_section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-lg-3 footer-col">
+              <div class="footer_detail">
+                <h4>
+                  Hakkımızda
+                </h4>
+                <p>
+                  Üç senedir akıllı saat ve kulaklık satışımız bulunmaktadır instagram üzerinden bugünden itibaren satın alımları gerçeklerştirmek için artık web sitemiz vardır.
+                </p>
+                <div class="footer_social">
+                  <a href="">
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                  </a>
+                  <a href="">
+                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 footer-col">
+              <div class="footer_contact">
+                <h4>
+                  Reach at..
+                </h4>
+                <div class="contact_link_box">
+                  <a href="">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <span>
+                      Location
+                    </span>
+                  </a>
+                  <a href="">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
+                    <span>
+                      Call +01 1234567890
+                    </span>
+                  </a>
+                  <a href="">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <span>
+                      demo@gmail.com
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 footer-col">
+              <div class="footer_contact">
+                <h4>
+                  Subscribe
+                </h4>
+                <form action="#">
+                  <input type="text" placeholder="Enter email" />
+                  <button type="submit">
+                    Subscribe
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 footer-col">
+              <div class="map_container">
+                <div class="map">
+                  <div id="googleMap"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer-info">
+            <p>
+              &copy; <span id="displayYear"></span> All Rights Reserved By
+              <a href="https://html.design/">Free Html Templates</a>
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+    <%- include('utilsEjs/scriptPath') %>
+    <script>
+      function counter(title, count, newId){
+        console.log(title)
+        fetch('/addBasket', ({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({title: title, count: count, newId: newId})
+        })).then(() => {
+          window.location.reload();
+        });
+      }
+    </script>
+</body>
+</html>

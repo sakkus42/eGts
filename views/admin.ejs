@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>E-GTS Kulaklık</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="../text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="../css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../css/responsive.css" rel="stylesheet" />
+</head>
+
+<style>
+
+    label {
+      background-color: #343a40;
+    }
+
+  .admin__main-container {
+    display: grid;
+    grid-template-columns: 0.25fr 1fr;
+    height: 100vh;
+  }
+
+  .admin__main-container .menu-bar {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    background-color: #faf9fa;
+    border: 10px solid #faf9fa;
+    border-radius: 10px;
+  }
+
+  .admin__main-container .menu-bar .title {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin__main-container .menu-bar .title span {
+    font-weight: 700;
+    color: #EE9322;
+  }
+
+  .admin__main-container .menu-bar .options {
+    padding-top: 20px;
+  }
+
+  .option-scale{
+    margin: 20px;
+  }
+
+  
+  .option-scale .product-maker{
+    display: none;
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .option-scale .product-maker form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+  }
+
+  .option-scale .products{
+    display: none;
+  }
+
+  
+</style>
+
+
+<body>
+
+  <div class="admin__main-container">
+    <%- include('./utilsEjs/admin_menu') %>
+    <div class="option-scale">
+      <div class="product-maker">
+        <form name="productForm" id="productForm" enctype="multipart/form-data">
+            <div>
+                <label for="title">Başlık</label>
+                <textarea class="form-control" type="text" id="title" name="title" required></textarea><br><br>
+            </div>
+              <div>
+                <label for="description">Açıklama</label>
+                <textarea class="form-control" id="description" name="description" required></textarea><br><br>
+              </div>  
+              <div>
+                <label for="price">Fiyat</label>
+                <input class="form-control" type="number" id="price" name="price" required><br><br>
+              </div>
+              <div>
+                <label for="quantity">Stok</label>
+                <input class="form-control" type="number" id="quantity" name="quantity" required><br><br>
+              </div>  
+              <div>
+                <label for="category">Kategori</label>
+                <input class="form-control" list="categories" type="text" id="category" name="category" required><br><br><br><br>
+                <datalist id="categories">
+                </datalist>
+              </div>  
+              <div>
+                <label for="brand">Marka</label>
+                <input class="form-control" type="text" id="brand" name="brand" required><br><br>
+              </div>  
+              <!-- buraya model eklemesi yapılacak -->
+              <div class="color-container">
+                <label for="color">Renk</label>
+                <input class="form-control" type="text" name="array[]"  /><br>
+                <div style="display: flex; justify-content: center;">
+                  <button type="button" class="btn" id="plusColor"><i class="bi fa-2x bi-plus-circle-fill"></i></button>
+                  <button type="button" class="btn" id="deleteColor"><i class="bi fa-2x bi-dash-circle-fill"></i></button>
+                </div><br>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlFile1">Example file input</label><br>
+                <input type="file" name="file" id="file" multiple="multiple" class="form-control-file" accept="image/jpeg, image/png, image/jpg"><br><br>
+              </div>
+              <button type="submit" class="btn btn-success" id="createProductBtn">Ürün Oluştur</button>
+        </form>
+        <!-- <main class="item">
+          <section class="img">
+            <button class="img-main__btnlft img-main__btn">
+              <img
+                src="../images/icon-next.svg"
+                alt="next symbol image"
+                class="img-main__btnlft-img img-main__btn-img"
+              />
+            </button>
+            <button class="img-main__btnrgt img-main__btn">
+              <img
+                src="../images/icon-next.svg"
+                alt="next symbol image"
+                class="img-main__btnrgt-img img-main__btn-img"
+              />
+            </button>
+
+            <img src="" alt="fotoğraf" class="img-main" />
+
+
+            <div class="img-btns">
+            </div>
+          </section>
+    
+          <section class="price">
+            <h2 class="price-sub__heading">E-GTS Farkıyla</h2>
+            <h1 class="price-main__heading"></h1>
+            <p class="price-txt">
+            </p>
+            <div class="price-box">
+              <div class="price-box__main">
+                <span class="price-box__main-new">TL</span>
+                <span class="price-box__main-discount"></span>
+              </div>
+              <span class="price-box__old"></span>
+                <a href="https://api.whatsapp.com/send?phone=+905523843742&text=Merhaba," target="_blank"><i class="bi bi-whatsapp"><span> whatsapp üzerinden ürün hakkında bilgi alabilirsiniz </span></i></a>
+            </div>
+    
+            <div class="price-btnbox">
+              <div class="price-btns">
+                <button class="price-btn__remove price-btn">
+                  <img
+                    src="../images/icon-minus.svg"
+                    alt="minus sign"
+                    class="price-btn__remove-img price-btn__img"
+                  />
+                </button>
+                <span class="price-btn__txt">0</span>
+                <button class="price-btn__add price-btn">
+                  <img
+                    src="../images/icon-plus.svg"
+                    alt="plus sign"
+                    class="price-btn__add-img price-btn__img"
+                  />
+                </button>
+              </div>
+              <button class="price-cart__btn btn--orange" onclick="add_to_basket()">
+                <img
+                  src="../images/icon-cart.svg"
+                  alt="cart image"
+                  class="price-cart__btn-img"
+                />
+                Sepete Ekle
+              </button>
+            </div>
+          </section>
+        </main> -->
+      </div>
+      <div class="products">
+        <form name="productSearch" id="productSearch">
+          <input type="search" id="search">
+          <button type="submit" class="btn" id="searchProduct" style="background-color: #343a40; color: white;">ara</button>
+        </form>
+        <table id="productTable" class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Ürün İsmi</th>
+              <th scope="col">Kategori</th>
+              <th scope="col">Marka</th>
+              <th scope="col">Fiyat</th>
+              <th scope="col">Stok</th>
+              <th scope="col">Sil</th>
+              <th scope="col">İncele</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Kullanıcılar burada dinamik olarak eklenecek -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+    <%- include('utilsEjs/scriptPath') %>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>E-GTS Kulaklık</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="../text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="../css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../css/responsive.css" rel="stylesheet" />
+</head>
+
+<style>
+
+    label {
+      background-color: #343a40;
+    }
+
+  .admin__main-container {
+    display: grid;
+    grid-template-columns: 0.25fr 1fr;
+    height: 100vh;
+  }
+
+  .admin__main-container .menu-bar {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    background-color: #faf9fa;
+    border: 10px solid #faf9fa;
+    border-radius: 10px;
+  }
+
+  .admin__main-container .menu-bar .title {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin__main-container .menu-bar .title span {
+    font-weight: 700;
+    color: #EE9322;
+  }
+
+  .admin__main-container .menu-bar .options {
+    padding-top: 20px;
+  }
+
+  .option-scale{
+    margin: 20px;
+  }
+
+  .option-scale .members{
+    display: block;
+  }
+  #userTable{
+    width: 100%;
+  }
+
+  
+</style>
+
+
+<body>
+
+  <div class="admin__main-container">
+    <%- include('./utilsEjs/admin_menu') %>
+    <div class="option-scale">
+      <div class="members">
+        <table id="userTable" class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Email</th>
+              <th scope="col">Telefon</th>
+              <th scope="col">Ad</th>
+              <th scope="col">Soyad</th>
+              <th scope="col">Engelle</th>
+              <!-- <th scope="col">Sil</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach((element) => { %>
+              <tr>
+                <td style="display: none;"><%= element.id %></td>
+                <td><%= element.email %></td>
+                <td><%= element.phone %></td>
+                <td><%= element.name %></td>
+                <td><%= element.sirname %></td>
+                <% if (element.isBlocked) { %>
+                  <td><button class="btn btn-success">Engeli Aç</button></td>                 
+                  <% } else { %>
+                  <td><button class="btn btn-warning">Engelle</button></td> 
+                <% } %>
+              </tr>
+              <%}); %>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <%- include('utilsEjs/scriptPath') %>
+  <script>
+    $('#userTable').on('click', 'button.btn', async function() {
+      var userId = $(this).closest('tr').find('td:first').text(); 
+      const res = await fetch(`/admin/block/${userId}`, {
+        method: "PUT"
+      });
+      const {isBlocked} = await res.json();
+      var btn = $(this).closest('tr').find('button');
+      if (isBlocked) {
+        btn.text("Engeli Aç");
+        btn.addClass("btn-success")
+        btn.removeClass("btn-warning");
+      }else {
+        btn.text("Engelle");
+        btn.addClass("btn-warning")
+        btn.removeClass("btn-success");
+      }
+    });
+  </script>
+</body>
+</html>

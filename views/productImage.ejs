@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>E-GTS Kulaklık</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="../text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="../css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../css/responsive.css" rel="stylesheet" />
+</head>
+
+<style>
+
+    label {
+      background-color: #343a40;
+    }
+
+  .admin__main-container {
+    display: grid;
+    grid-template-columns: 0.25fr 1fr;
+    height: 100vh;
+  }
+
+  .admin__main-container .menu-bar {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    background-color: #faf9fa;
+    border: 10px solid #faf9fa;
+    border-radius: 10px;
+  }
+
+  .admin__main-container .menu-bar .title {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin__main-container .menu-bar .title span {
+    font-weight: 700;
+    color: #EE9322;
+  }
+
+  .admin__main-container .menu-bar .options {
+    padding-top: 20px;
+  }
+
+  .option-scale{
+    margin: 20px;
+  }
+
+  
+  .option-scale .product-maker{
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .option-scale .product-maker form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+  }
+
+  #imageContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 250px;
+    height: 250px;
+    gap: 20px;
+  }
+
+  .delete-icon {
+    position: absolute;
+    background: red;
+    color: white;
+    padding: 2px 5px;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .app {
+  max-width: 1224px;
+  width: 92%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.header h2 {
+  min-width: fit-content;
+}
+
+.server-message {
+  width: 100%;
+  padding: 16px;
+  border-radius: 5px;
+}
+
+.input-div {
+  width: 100%;
+  height: 200px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 2px dotted black;
+  background-color: white;
+  position: relative;
+}
+
+.input-div .browse {
+  color: black;
+  font-weight: bold;
+}
+
+.file {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.saved-div,
+.queued-div {
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+  position: relative;
+  border-radius: 5px;
+  background-color: white;
+  border: 1px dotted black;
+}
+
+.saved-div .image,
+.queued-div .image {
+  height: 150px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  position: relative;
+}
+
+.saved-div .image:nth-child(4n),
+.queued-div .image:nth-child(4n) {
+  margin-right: 0;
+}
+
+.saved-div .image img,
+.queued-div .image img {
+  height: 100%;
+  width: 100%;
+}
+
+.saved-div .image span,
+.queued-div .image span {
+  position: absolute;
+  top: -4px;
+  right: 4px;
+  cursor: pointer;
+  font-size: 22px;
+  color: white;
+}
+
+.saved-div .image span:hover,
+.queued-div .image span:hover {
+  opacity: 0.8;
+}
+
+.saved-div .span--hidden,
+.queued-div .span--hidden {
+  visibility: hidden;
+}
+
+
+  
+</style>
+
+
+<body>
+
+  <div class="admin__main-container">
+    <%- include('./utilsEjs/admin_menu') %>
+    <div class="option-scale">
+          <div id="_id" style="display: none;">
+            <%= id %>
+          </div>
+          <main class="app">
+    
+            <div class="header">
+              <h2>Fotoğraf Yükle</h2>
+              <div class="server-message"></div>
+            </div>
+        
+            <div class="input-div">
+              <p>Fotoğraf Yükle</p>
+              <input type="file" class="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg"/>
+            </div>
+        
+            <form id="saved-form">
+              <div class="header">
+                <h3>Kayıtlı Olan Fotoğraflar</h3>
+                <button class="btn btn-warning" type="submit">Sil</button>
+              </div>
+              <div class="saved-div">              
+              </div>
+            </form>
+        
+            <form id="queued-form">
+              <div class="header">
+                <h3>Önizleme</h3>
+                <button class="btn btn-success" type="submit">Kaydet</button>
+              </div>
+              <div class="queued-div"></div>
+            </form>
+        
+          </main>
+    </div>
+  </div>
+      <%- include('utilsEjs/scriptPath') %>
+<script>
+
+let queuedImagesArray = [],
+savedForm = document.querySelector("#saved-form"),
+queuedForm = document.querySelector("#queued-form"),
+savedDiv = document.querySelector('.saved-div'),
+queuedDiv = document.querySelector('.queued-div'),
+inputDiv = document.querySelector('.input-div'),
+input = document.querySelector('.input-div input'),
+serverMessage = document.querySelector('.server-message'),
+deleteImages = [],
+saved_image = <%- JSON.stringify(image) %>,
+id =  <%- JSON.stringify(id) %>;
+
+
+// SAVED IN SERVER IMAGE
+
+if (saved_image) { displaySavedImages(); }
+
+
+function displaySavedImages(){
+  let images = "";
+  saved_image.forEach((image, index) => {
+    images += `<div class="image">
+                  <img src="/images/product/${image.fileName}" alt="">
+                  <span style="color: black;" onclick="deleteSavedImage(${index})">&times;</span>
+              </div>`
+  })
+  savedDiv.innerHTML = images;
+};
+
+function deleteSavedImage(index){
+  deleteImages.push(saved_image[index])
+  console.log(deleteImages);
+  saved_image.splice(index, 1);
+  displaySavedImages();
+}
+
+savedForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  deleteImagesServer();
+})
+
+function deleteImagesServer() {
+  fetch(`/admin/delImg/${id}`, {
+    method: "PUT",
+    headers: {
+      "Accept" : "application/json, text/plain",
+      "Content-type":"application/json"
+    },
+    body: JSON.stringify(deleteImages),
+  })
+
+  .then(response => {
+    if (response.status !== 200) throw Error(response.statusText);
+    deleteImages = []
+    serverMessage.innerHTML = response.statusText;
+    serverMessage.style.cssText = "background-color: #d4edda; color: #1b5e20";
+  })
+
+  .catch(err => {
+    serverMessage.innerHTML = err;
+    serverMessage.style.cssText = "background-color: #f8d7da";
+  })
+};
+
+
+// QUEDED IN FRONTEN
+input.addEventListener("change", () => {
+  const files = input.files;
+  for(let i = 0; i < files.length; i++){
+    queuedImagesArray.push(files[i]);
+  }
+  queuedForm.reset();
+  displayQueuedImages()
+  
+});
+
+inputDiv.addEventListener("drop", (e) => {
+    e.preventDefault()
+    const files = e.dataTransfer.files
+    for (let i = 0; i < files.length; i++) {
+      if (!files[i].type.match("image")) continue; // only photos
+      
+      if (queuedImagesArray.every(image => image.name !== files[i].name))
+        queuedImagesArray.push(files[i])
+    }
+    displayQueuedImages()
+})
+
+function displayQueuedImages(){
+  let images = "";
+  queuedImagesArray.forEach((image, index) => {
+    images += `<div class="image">
+                  <img src="${URL.createObjectURL(image)}" alt="">
+                  <span style="color: black;" onclick="deleteQueuedImage(${index})">&times;</span>
+              </div>`
+  })
+  queuedDiv.innerHTML = images;
+};
+function deleteQueuedImage(index){
+  queuedImagesArray.splice(index, 1);
+  displayQueuedImages();
+}
+queuedForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  sendQueuedImagesToServer();
+})
+
+function sendQueuedImagesToServer(){
+  const formData = new FormData();
+
+  queuedImagesArray.forEach((image, index) => {
+    formData.append(`file[${index}]`, image);
+  })
+  
+
+  fetch(`/admin/uploadImg/<%= typeof id !== 'undefined' ? id : 0 %>`, {
+    method: "POST",
+    body: formData
+  })
+  .then(response =>  {
+    if (response.status !== 200) throw Error(response.statusText);
+    location.reload();
+  })
+  .catch(error => {
+    serverMessage.innerHTML = error;
+    serverMessage.style.cssText = "background-color: #f8d7da";
+  })
+};
+      </script>
+      
+      <!-- <div class="form-group">
+        <label for="exampleFormControlFile1">Ürün Fotoğraflarını seçiniz</label><br>
+        <input type="file" name="image" id="image" multiple="multiple" class="form-control-file"  accept="image/jpeg, image/png, image/jpg"><br><br>
+        <div id="imageContainer"></div>
+      </div> -->
+</body>
+</html>

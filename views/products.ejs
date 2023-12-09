@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>E-GTS Kulaklık</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="../text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="../css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../css/responsive.css" rel="stylesheet" />
+</head>
+
+<style>
+
+  label {
+    background-color: #343a40;
+  }
+
+  .admin__main-container {
+    display: grid;
+    grid-template-columns: 0.25fr 1fr;
+    height: 100vh;
+  }
+
+  .admin__main-container .menu-bar {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    background-color: #faf9fa;
+    border: 10px solid #faf9fa;
+    border-radius: 10px;
+  }
+
+  .admin__main-container .menu-bar .title {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin__main-container .menu-bar .title span {
+    font-weight: 700;
+    color: #EE9322;
+  }
+
+  .admin__main-container .menu-bar .options {
+    padding-top: 20px;
+  }
+
+  .option-scale{
+    margin: 20px;
+  }
+  .option-scale .products{
+    display: block;
+  }
+</style>
+
+
+<body>
+
+  <div class="admin__main-container">
+    <%- include('./utilsEjs/admin_menu') %>
+    <div class="option-scale">
+      <div class="products">
+        <form name="productSearch" id="productSearch">
+          <input type="search" id="search">
+          <button type="submit" class="btn" id="searchProduct" style="background-color: #343a40; color: white;">ara</button>
+        </form>
+        <div id="searchRes">
+        </div>
+        <table id="productTable" class="table table-hover">
+          <thead class="thead-dark" 
+            <tr>
+              <th scope="col">Ürün İsmi</th>
+              <th scope="col">Kategori</th>
+              <th scope="col">Marka</th>
+              <th scope="col">Fiyat</th>
+              <th scope="col">Stok</th>
+              <th scope="col">İncele</th>
+              <th scope="col">İndirim ve Hediye</th>
+              <th scope="col">Öne Çıkar</th>
+              <th scope="col">Sil</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% products.forEach((element) => { %>
+              <tr id="<%= element.slug %>">
+                <td style="display: none;"><%= element.id %></td>
+                <td><%= element.title %></td>
+                <td><%= element.category %></td>
+                <td><%= element.brand %></td>
+                <td><%= element.price %>TL</td>
+                <td><%= element.quantity %></td>
+                <td><a href="/admin/product/<%= element.slug %>"><button class="btn btn-success">İncele</button></a></td>
+                <td><a href="/admin/campaign/<%= element.slug %>"><button class="btn btn-success">Kampanya</button></a></td>
+                <td><button class="btn add <%= element.import == 0 ? 'btn-primary' : 'btn-danger' %>"><%= element.import == 0 ? 'Önerilenlere Ekle' : 'Çıkar' %></button></td>
+                <td><button class="btn btn-warning">Sil</button></td>
+              </tr>
+              <%}); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+    <%- include('utilsEjs/scriptPath') %>
+  <script>
+  $('#productTable').on('click', 'button.btn.btn-warning', async function() {
+    console.log("burdayız")
+    var prdctId = $(this).closest('tr').find('td:first').text(); 
+    const res = await fetch(`/admin/del/${prdctId}`, {
+        method: "PUT"
+    });
+    $(this).closest('tr').remove();
+  });
+
+  $('#productTable').on('click', 'button.btn.add', async function() {
+    console.log("burdayız")
+    var prdctId = $(this).closest('tr').find('td:first').text();
+    const res = await fetch(`/admin/import/${prdctId}`, {
+        method: "PUT"
+    });
+    if ($(this).text() == "Çıkar"){
+      $(this).text("Önerilenlere Ekle");
+      $(this).addClass('btn-primary');
+      $(this).removeClass('btn-danger');
+    }else{
+      $(this).text("Çıkar");
+      $(this).addClass('btn-danger');
+      $(this).removeClass('btn-primary');
+
+    }
+  });
+
+  $('#productSearch').submit(async function(event) {
+    event.preventDefault(); 
+
+    var searchQuery = $('#search').val();
+
+    console.log('Aranan: ', searchQuery);
+    const res = await fetch(`/admin/search/${searchQuery}`, {
+        method: "GET"
+    });
+    const response = await res.json();
+    const prdct = response.prdct;
+    
+    if (!prdct){
+      const txt = $("<p></p>").text("Aradığınız ürün bulunamadı");
+      txt.css("color", "red")
+      $('#searchRes').append(txt);
+      setTimeout(() => {
+        $('#searchRes').find('p').remove(); 
+      }, 2000);
+    } else {
+      const prdctSearch = $(`#${prdct.slug}`).clone();
+      $(`#${prdct.slug}`).remove();
+      console.log(prdctSearch);
+      prdctSearch.css('background-color', '#C5E898');
+      setTimeout(function() {
+        prdctSearch.css('background-color', '');
+      }, 2000);
+      $('#productTable tbody').find('tr:first').before(prdctSearch);
+    }
+  });
+
+
+  </script>
+</body>
+</html>

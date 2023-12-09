@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="../../images/favicon.png" type="image/x-icon">
+
+
+  <style>
+    .checkbox-wrapper-30 .checkbox {
+      --bg: #fff;
+      --brdr: #d1d6ee;
+      --brdr-actv: #1e2235;
+      --brdr-hovr: #bbc1e1;
+      --dur: calc((var(--size, 2)/2) * 0.6s);
+      display: inline-block;
+      width: calc(var(--size, 1) * 22px);
+      position: relative;
+    }
+    .checkbox-wrapper-30 .checkbox:after {
+      content: "";
+      width: 100%;
+      padding-top: 100%;
+      display: block;
+    }
+    .checkbox-wrapper-30 .checkbox > * {
+      position: absolute;
+    }
+    .checkbox-wrapper-30 .checkbox input {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+      background-color: var(--bg);
+      border-radius: calc(var(--size, 1) * 4px);
+      border: calc(var(--newBrdr, var(--size, 1)) * 1px) solid;
+      color: var(--newBrdrClr, var(--brdr));
+      outline: none;
+      margin: 0;
+      padding: 0;
+      transition: all calc(var(--dur) / 3) linear;
+    }
+    .checkbox-wrapper-30 .checkbox input:hover,
+    .checkbox-wrapper-30 .checkbox input:checked {
+      --newBrdr: calc(var(--size, 1) * 2);
+    }
+    .checkbox-wrapper-30 .checkbox input:hover {
+      --newBrdrClr: var(--brdr-hovr);
+    }
+    .checkbox-wrapper-30 .checkbox input:checked {
+      --newBrdrClr: var(--brdr-actv);
+      transition-delay: calc(var(--dur) /1.3);
+    }
+    .checkbox-wrapper-30 .checkbox input:checked + svg {
+      --dashArray: 16 93;
+      --dashOffset: 109;
+    }
+    .checkbox-wrapper-30 .checkbox svg {
+      fill: none;
+      left: 0;
+      pointer-events: none;
+      stroke: var(--stroke, var(--border-active));
+      stroke-dasharray: var(--dashArray, 93);
+      stroke-dashoffset: var(--dashOffset, 94);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 2px;
+      top: 0;
+      transition: stroke-dasharray var(--dur), stroke-dashoffset var(--dur);
+    }
+    .checkbox-wrapper-30 .checkbox svg,
+    .checkbox-wrapper-30 .checkbox input {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+
+    .checkbox-wrapper-30{
+      margin-top: 5px;
+    }
+    .options{
+      display: flex;
+      flex-direction: column;
+    }
+
+    #colorSelect {
+      width: 50%;
+      border: 2px solid #dbdbdb;
+      border-radius: 10px;
+      background-color: #fff;
+      transition: 0.2s;
+    }
+
+    .content{
+      line-height: 28px;
+      overflow: hidden;
+      font-size: 13px;
+      color: #666;
+    }
+
+  </style>
+
+  <title>E-GTS Akıllı Saat</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="../css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../css/responsive.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="product-details" data-product-id="<%= data.id %>">
+    <!-- Diğer ürün detayları burada olabilir -->
+  </div>
+
+    <div class="hero_area">
+        <!-- header section strats -->
+      <%- include('utilsEjs/headerSection') %>
+      <main class="item">
+        <section class="img">
+          <button class="img-main__btnlft img-main__btn">
+            <img
+              src="../images/icon-next.svg"
+              alt="next symbol image"
+              class="img-main__btnlft-img img-main__btn-img"
+            />
+          </button>
+          <button class="img-main__btnrgt img-main__btn">
+            <img
+              src="../images/icon-next.svg"
+              alt="next symbol image"
+              class="img-main__btnrgt-img img-main__btn-img"
+            />
+          </button>
+
+          <img src="/images/product/<%= data.images[0].fileName %>" alt="fotoğraf" class="img-main" />
+
+
+          <div class="img-btns">
+            <% data.images.some((element) => {%>
+            <button class="img-btn">
+                <img
+                src="/images/product/<%= element.fileName %>"
+                alt="shoe product image"
+                class="img-btn__img"
+                />
+            </button>
+            <% }); %>
+          </div>
+        </section>
+  
+        <section class="price">
+          <div class="center">
+            <h2 class="price-sub__heading">E-GTS Farkıyla</h2>
+            <h1 class="price-main__heading"><%= data.title %></h1>
+            <div class="color"></div>            
+            <div class="price-box">
+              <div class="price-box__main">
+                <% if (data.discont) { %>
+                  <span class="price-box__main-new price-box__old"><%= data.oldPrice %>TL</span>
+                  <span class="price-box__main-discount">%<%= data.discont %> indirim</span>
+                  <% } %>
+              </div>
+                <span class="price-box__main-new"><%= data.price %>TL</span>
+                <div class="box">
+                  <div>
+                    <span style="color: #152232; font-size: medium; font-weight: 550;">Renk</span> 
+                  </div>
+                  <select id="colorSelect">
+                    <% data.color.forEach(el => { %>
+                      <option style="color: #1f2834" ><%= el %></option>
+                    <%}) %>
+                  </select>
+                </div>
+              </div>
+          </div>
+
+          <% if (data.options && data.options.option != false) { %>
+            <% data.options.option.forEach((el, index) => { %>                    
+            <div class="checkbox-wrapper-30" style="margin-top: 10px;">
+                <span class="checkbox">
+                  <input type="checkbox" class="myCheckbox" data-price="<%= data.options.price[index] %>" data-option="<%= el %>"/>
+                <svg>
+                  <use xlink:href="#checkbox-30" class="checkbox"></use>
+                </svg>
+              </span>
+              <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+                <symbol id="checkbox-30" viewBox="0 0 22 22">
+                  <path fill="none" stroke="currentColor" d="M5.5,11.3L9,14.8L20.2,3.3l0,0c-0.5-1-1.5-1.8-2.7-1.8h-13c-1.7,0-3,1.3-3,3v13c0,1.7,1.3,3,3,3h13 c1.7,0,3-1.3,3-3v-13c0-0.4-0.1-0.8-0.3-1.2"/>
+                </symbol>
+              </svg>
+              <span class="content" style="position: absolute; padding-left: 10px; margin-bottom: 20px; color: #435062;"><%= el %> <span style="font-size: medium; color: #2e4577;">(+<%= data.options.price[index] %>TL)</span> </span>
+                
+            </div>
+          <%  }) %>
+          <% } %>
+          <a style="color: #EE9322; margin: 10px 0 10px 0;" href="https://api.whatsapp.com/send?phone=+905523843742&text=Merhaba, <%= data.title %> bu ürün hakkında bilgi almak istiyorum" target="_blank"><i class="bi bi-whatsapp"><span> whatsapp üzerinden ürün hakkında bilgi alabilirsiniz </span></i></a>
+          <div class="price-btnbox">
+            <form action="/addBasket" method="post">
+              <input type="hidden" name="id" value="<%= data.id %>">
+              <input type="hidden" name="title" value="<%= data.title %>">
+              <input id="selectedColor" type="hidden" name="color" value="<%= data.color[0] %>">
+              <input type="hidden" name="price" value="<%= data.price %>">
+              <input type="hidden" name="oldPrice" value="<%= data.oldPrice %>">
+              <input type="hidden" name="count" value="1">
+              <input type="hidden" name="image" value="/images/product/<%= data.images[0].fileName %>">
+              <input type="hidden" name="options[]" value="">
+              <input type="hidden" name="prices[]" value="">
+              <% if (data.giftContent) { %>
+                <input type="hidden" name="giftContent" value="<%= data.giftContent %>">
+                <% } else { %>
+                <input type="hidden" name="giftContent" value="">
+              <% } %>
+              <button type="submit" class="price-cart__btn btn--orange">
+                <img
+                src="../images/icon-cart.svg"
+                alt="cart image"
+                class="price-cart__btn-img"
+                />
+                Sepete Ekle
+              </button>
+            </form>
+          </div>
+          <div class="productAttr">
+            <div class="title">
+            <span style="font-weight: 600; font-size: larger; color: var(--orange);" > Öne Çıkan Özellikler </span>
+            </div>
+            
+            <div class="content">
+              <%= data.description %>
+            </div>
+          </div>
+        </section>
+        <!-- footer section --> 
+      </main>
+      <section class="shop_section layout_padding">
+        <div class="containerProduct">
+          <div class="heading_container heading_center">
+            <h2>
+              Benzer Ürünler
+            </h2>
+          </div>
+          <div class="rowProduct">
+            <%- include('utilsEjs/row', { data: imported, end: 4, name: 'Önerilenler' }) %>
+          </div>
+          <!-- <div class="btn-box">
+            <a href="headset">
+              Tümünü Göster
+            </a>
+          </div> -->
+        </div>
+      </section>
+      <footer class="footer_section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-lg-3 footer-col">
+              <div class="footer_detail">
+                <h4>
+                  Hakkımızda
+                </h4>
+                <p>
+                  Üç senedir akıllı saat ve kulaklık satışımız bulunmaktadır instagram üzerinden bugünden itibaren satın alımları gerçeklerştirmek için artık web sitemiz vardır.
+                </p>
+                <div class="footer_social">
+                  <a href="">
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                  </a>
+                  <a href="">
+                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 footer-col">
+              <div class="footer_contact">
+                <h4>
+                  Reach at..
+                </h4>
+                <div class="contact_link_box">
+                  <a href="">
+                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                    <span>
+                      Location
+                    </span>
+                  </a>
+                  <a href="">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
+                    <span>
+                      Call +01 1234567890
+                    </span>
+                  </a>
+                  <a href="">
+                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                    <span>
+                      demo@gmail.com
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 footer-col">
+              <div class="footer_contact">
+                <h4>
+                  Subscribe
+                </h4>
+                <form action="#">
+                  <input type="text" placeholder="Enter email" />
+                  <button type="submit">
+                    Subscribe
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 footer-col">
+              <div class="map_container">
+                <div class="map">
+                  <div id="googleMap"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="footer-info">
+            <p>
+              &copy; <span id="displayYear"></span> All Rights Reserved By
+              <a href="https://html.design/">Free Html Templates</a>
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+<script src="../js/jquery-3.4.1.min.js"></script>
+<!-- popper js -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+</script>
+<!-- bootstrap js -->
+<script src="../js/bootstrap.js"></script>
+<!-- owl slider -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+</script>
+<!-- custom js -->
+<script src="../js/custom.js"></script>
+<!-- Google Map -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
+<script>
+  $(document).ready(function(){
+    $(".img-btn").on("click", function(ev) {
+      const img = $(this).find("img.img-btn__img").attr("src");
+      $(".img-main").attr("src", img);
+      console.log(img);
+    });
+
+    $('#colorSelect').on('change', function() {
+        var selectedColor = $(this).val();
+        $('#selectedColor').val(selectedColor);
+    });
+
+    
+  });
+    
+// Tüm checkbox elemanlarını seçme
+var checkboxes = document.querySelectorAll('.myCheckbox');
+
+checkboxes.forEach(function(checkbox) {
+  checkbox.addEventListener('change', function() {
+    var option = this.dataset.option; // Seçeneğin adı
+    var price = this.dataset.price; // Fiyatı
+    
+    console.log(option);
+    console.log(price);
+    // Gizli input alanlarını seçme
+    var optionsInput = document.querySelector('input[name="options[]"]');
+    var priceInput = document.querySelector('input[name="prices[]"]');
+    // Checkbox işaretlendiğinde veya kaldırıldığında gizli input değerlerini güncelleme
+    if (this.checked) {
+      // Checkbox işaretlendiğinde gizli input alanlarına değerleri ekleme
+      optionsInput.value += option + ','; // Option'ı eklerken virgülle ayırabilirsiniz
+      priceInput.value += price + ','; // Fiyatı eklerken virgülle ayırabilirsiniz
+    } else {
+      // Checkbox işareti kaldırıldığında gizli input değerlerini güncelleme
+      optionsInput.value = optionsInput.value.replace(option + ',', ''); // Option'ı listeden çıkarır
+      priceInput.value = priceInput.value.replace(price + ',', ''); // Fiyatı listeden çıkarır
+      console.log(optionsInput);
+      console.log(priceInput);
+    }
+  });
+});
+
+
+</script>
+
+<script>
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<div class="new">
+    <% if (element.giftContent && element.giftCategory) { %>
+        <div>
+            <label class="green-label"> <%= element.giftContent %>   </label>
+        </div>
+    <% } %>
+    <% if (element.discont) { %>
+        <!-- <label class="green-label" style="background-color: #EF4040 !important;"><%= element.oldPrice - element.price %> TL indirimde</label> -->
+        <label class="green-label" style="background-color: #EF4040!important;">%<%= element.discont %> Kampanya </label>
+    <% } %>
+</div>
+
+<div class="new-right">
+    
+        <!-- <i class="bi bi-credit-card-2-back-fill" style="font-size: x-large;" ></i> -->
+    <!-- <div>
+        <i class="bi bi-credit-card-2-back" style="color: #EE9322; font-size: x-large;"></i>
+    </div> -->
+</div>

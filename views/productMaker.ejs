@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>E-GTS Kulaklık</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="../text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="../css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../css/responsive.css" rel="stylesheet" />
+</head>
+
+<style>
+
+    label {
+      background-color: #343a40;
+    }
+
+  .admin__main-container {
+    display: grid;
+    grid-template-columns: 0.25fr 1fr;
+    height: 100vh;
+  }
+
+  .admin__main-container .menu-bar {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    background-color: #faf9fa;
+    border: 10px solid #faf9fa;
+    border-radius: 10px;
+  }
+
+  .admin__main-container .menu-bar .title {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin__main-container .menu-bar .title span {
+    font-weight: 700;
+    color: #EE9322;
+  }
+
+  .admin__main-container .menu-bar .options {
+    padding-top: 20px;
+  }
+
+  .option-scale{
+    margin: 20px;
+  }
+
+  
+  .option-scale .product-maker{
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .option-scale .product-maker form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+  }
+
+  #imageContainer{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 250px;
+    height: 250px;
+    gap: 20px;
+  }
+
+  .delete-icon {
+    position: absolute;
+    background: red;
+    color: white;
+    padding: 2px 5px;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .app {
+  max-width: 1224px;
+  width: 92%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.header h2 {
+  min-width: fit-content;
+}
+
+.server-message {
+  width: 100%;
+  padding: 16px;
+  border-radius: 5px;
+}
+
+.input-div {
+  width: 100%;
+  height: 200px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 2px dotted black;
+  background-color: white;
+  position: relative;
+}
+
+.input-div .browse {
+  color: black;
+  font-weight: bold;
+}
+
+.file {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.saved-div,
+.queued-div {
+  width: 100%;
+  min-height: 150px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+  position: relative;
+  border-radius: 5px;
+  background-color: white;
+  border: 1px dotted black;
+}
+
+.saved-div .image,
+.queued-div .image {
+  height: 150px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  position: relative;
+}
+
+.saved-div .image:nth-child(4n),
+.queued-div .image:nth-child(4n) {
+  margin-right: 0;
+}
+
+.saved-div .image img,
+.queued-div .image img {
+  height: 100%;
+  width: 100%;
+}
+
+.saved-div .image span,
+.queued-div .image span {
+  position: absolute;
+  top: -4px;
+  right: 4px;
+  cursor: pointer;
+  font-size: 22px;
+  color: white;
+}
+
+.saved-div .image span:hover,
+.queued-div .image span:hover {
+  opacity: 0.8;
+}
+
+.saved-div .span--hidden,
+.queued-div .span--hidden {
+  visibility: hidden;
+}
+
+
+  
+</style>
+
+
+<body>
+
+  <div class="admin__main-container">
+    <%- include('./utilsEjs/admin_menu') %>
+    <div class="option-scale">
+        <div class="product-maker">
+          <form name="productForm" id="productForm" action="/admin/creatProduct" method="post">
+            <div>
+                <label for="title">Başlık</label>
+                <input class="form-control" type="text" id="title" name="title" required></input><br><br>
+            </div>
+              <div>
+                <label for="description">Açıklama</label>
+                <textarea class="form-control" id="description" name="description" required></textarea><br><br>
+              </div>  
+              <div>
+                <label for="price">Fiyat</label>
+                <input class="form-control" type="number" id="price" name="price" required><br><br>
+              </div>
+              <div>
+                <label for="quantity">Stok</label>
+                <input class="form-control" type="number" id="quantity" name="quantity" required><br><br>
+              </div>  
+              <div>
+                <label for="category">Kategori</label>
+                <input class="form-control" list="categories" type="text" id="category" name="category" required><br><br><br><br>
+                <datalist id="categories">
+                  <option value="akıllı Saat">
+                  <option value="aksesuar">
+                  <option value="kulaklık">
+                </datalist>
+              </div>  
+              <div>
+                <label for="brand">Marka</label>
+                <input class="form-control" type="text" id="brand" name="brand" required><br><br>
+              </div>  
+              <!-- buraya model eklemesi yapılacak -->
+              <div class="color-container">
+                <label for="color">Renk</label>
+                <input class="form-control" type="text" name="array[]"  required/><br>
+                <div style="display: flex; justify-content: center;">
+                  <button type="button" class="btn" id="plusColor"><i class="bi fa-2x bi-plus-circle-fill"></i></button>
+                  <button type="button" class="btn" id="deleteColor"><i class="bi fa-2x bi-dash-circle-fill"></i></button>
+                </div><br>
+              </div>
+              <div></div>
+              <button type="submit" class="btn btn-success" id="createProductBtn">Ürün Oluştur</button>
+          </form>
+        </div>
+    </div>
+  </div>
+      <%- include('utilsEjs/scriptPath') %>
+      <script>
+
+document.getElementById('plusColor').addEventListener('click', () => {
+  
+  const colorCont = document.querySelector('.color-container');
+  const inptColor = document.createElement('input');
+  inptColor.classList.add('form-control');
+  inptColor.type = "text";
+  inptColor.name = "array[]";
+  const lastChild = colorCont.children[colorCont.children.length - 2];
+  colorCont.insertBefore(inptColor, lastChild);
+  const lastChild2 = colorCont.children[colorCont.children.length - 2];
+  // colorCont.appendChild(inptColor);
+  colorCont.insertBefore(document.createElement('br'), lastChild2);
+});
+
+document.getElementById('deleteColor').addEventListener('click', () => {
+  const colorCont = document.querySelector('.color-container');
+  const inputs = colorCont.querySelectorAll('input[name="array[]"]');
+  if (inputs.length > 1) {
+      const lastInput = inputs[inputs.length - 1];
+      lastInput.previousElementSibling.remove(); // Önceki br'yi kaldır
+      lastInput.remove(); // En son inputu kaldır
+  }
+});
+      </script>
+      
+      <!-- <div class="form-group">
+        <label for="exampleFormControlFile1">Ürün Fotoğraflarını seçiniz</label><br>
+        <input type="file" name="image" id="image" multiple="multiple" class="form-control-file"  accept="image/jpeg, image/png, image/jpg"><br><br>
+        <div id="imageContainer"></div>
+      </div> -->
+</body>
+</html>

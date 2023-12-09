@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>E-GTS Kulaklık</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+
+  <link type="text/css" href="/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link type="text/css" href="/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link type="text/css" href="/css/responsive.css" rel="stylesheet" />
+</head>
+
+<style>
+
+    label {
+      background-color: #343a40;
+    }
+
+  .admin__main-container {
+    display: grid;
+    grid-template-columns: 0.25fr 1fr;
+    height: 100vh;
+  }
+
+  .admin__main-container .menu-bar {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    background-color: #faf9fa;
+    border: 10px solid #faf9fa;
+    border-radius: 10px;
+  }
+
+  .admin__main-container .menu-bar .title {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin__main-container .menu-bar .title span {
+    font-weight: 700;
+    color: #EE9322;
+  }
+
+  .admin__main-container .menu-bar .options {
+    padding-top: 20px;
+  }
+
+  .option-scale{
+    margin: 20px;
+  }
+
+  
+  .option-scale .product-maker{
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .option-scale .product-maker form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 20px;
+  }
+
+  #price{
+    
+    font-family: 'Courier New', Courier, monospace;
+    /* border: 0.1rem solid #343a40; */
+  }
+  
+</style>
+
+
+<body>
+
+  <div class="admin__main-container">
+    <%- include('./utilsEjs/admin_menu') %>
+    <div class="option-scale">
+      <div class="product-maker">
+        <form name="prdctUpdate" id="prdctUpdate" action="/admin/campaign/<%= prdct.id %>" method="post" >
+            <div>
+                <label for="discont">İndirim Oranı (%) </label>
+                <input class="form-control" type="number" id="discont" name="discont" placeholder="<%= prdct.discont %>"></input><br>  
+                <label>Yeni Fiyat </label>
+                <div id="price" class="form-control">
+                  <%= prdct.price %>
+                </div><br><br>
+            </div>
+            <div class="options-container">
+              <label for="options">Opsiyonlar</label>
+              <% if (prdct.options) {%>
+                <% prdct.options.option.forEach((el, index) => {%>
+                  <input class="form-control" type="text" name="options[]"  placeholder="opsiyon metni" value="<%= el %>">
+                  <input  class="form-control" type="number" name="optionPrice[]" placeholder="fiyat" value="<%= prdct.options.price[index] %>"><br>
+                  <% }) %>  
+                  <% } else { %>
+                    <input class="form-control" type="text" name="options[]"  placeholder="opsiyon metni">
+                    <input  class="form-control" type="number" name="optionPrice[]" placeholder="fiyat">
+              <%  }%>
+              <div style="display: flex; justify-content: center;">
+                <button type="button" class="btn" id="plusColor"><i class="bi fa-2x bi-plus-circle-fill"></i></button>
+                <button type="button" class="btn" id="deleteColor"><i class="bi fa-2x bi-dash-circle-fill"></i></button>
+              </div><br>
+            </div>
+            <div>
+              <label for="giftCategory">Hangi marka (kordon,3.nesil kılıf vs.) hediye edilecek</label>
+              <input class="form-control" type="text" id="giftCategory" name="giftCategory" placeholder="<%= prdct.giftCategory %>"><br><br>
+            </div>
+            <div>
+              <label for="giftContent">Hediye İçin Yazı</label>
+              <input class="form-control" list="categories" type="text" id="giftContent" name="giftContent" placeholder="<%= prdct.giftContent %>"><br><br><br>
+            </div>
+
+            <button type="submit" class="btn btn-success" id="updateProduct">Ürünü Güncelle</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- <span style="color: black;" onclick="deleteQueuedImage(${index})">&times;</span> -->
+
+    <%- include('utilsEjs/scriptPath') %>
+    <script>
+      
+      let discont = document.querySelector('#discont'),
+      priceDiv = document.querySelector('#price'),
+      price = Number(priceDiv.textContent),
+      oldPrice = Number(`<%= prdct.price %>`);
+    
+      discont.addEventListener('change', (e) => {
+        const discontN = Number(e.target.value);
+        if (discontN <= 0) {
+          priceDiv.textContent = oldPrice;
+        }else {
+          const totalDisc = Math.round((discontN / 100) * oldPrice);
+          priceDiv.textContent = price - totalDisc;
+        }
+      });
+
+
+    document.getElementById('plusColor').addEventListener('click', () => {
+      console.log("selam")
+      const options = document.querySelector('.options-container');
+      const inptOption = document.createElement('input');
+      const inptPrice = document.createElement('input');
+      
+      inptPrice.classList.add('form-control');
+      inptPrice.type = "number";
+      inptPrice.name = "optionPrice[]";
+      inptPrice.placeholder = "Fiyat"
+      inptOption.classList.add('form-control');
+      inptOption.type = "text";
+      inptOption.name = "options[]";
+      inptOption.placeholder = "Opsiyon metni"
+      console.log(options.children.length - 2);
+      const lastChild = options.children[options.children.length - 2];
+
+      options.insertBefore(
+        document.createElement('br'),
+        options.children[options.children.length - 2]
+      );
+
+      options.insertBefore(
+        inptOption,
+        options.children[options.children.length - 2]
+      );
+
+      options.insertBefore(
+        inptPrice,
+        options.children[options.children.length - 2]
+      );
+      // options.appendChild(inptOption);
+    });
+
+    document.getElementById('deleteColor').addEventListener('click', () => {
+      const options = document.querySelector('.options-container');
+      const inputs = options.querySelectorAll('input[name="options[]"]');
+      const inputPrice = options.querySelectorAll('input[name="optionPrice[]"]');
+      if (inputs.length > 1) {
+          const lastInput = inputs[inputs.length - 1];
+          const lastInputP = inputPrice[inputPrice.length - 1];
+          lastInput.previousElementSibling.remove(); // Önceki br'yi kaldır
+          // lastInputP.previousElementSibling.remove(); // Önceki br'yi kaldır
+          lastInputP.remove(); // En son inputu kaldır
+          lastInput.remove(); // En son inputu kaldır
+      }
+    });
+      
+      
+    </script>
+</body>
+</html>

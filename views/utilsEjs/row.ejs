@@ -1,0 +1,62 @@
+<% data.some((element, index) => { %>
+    <% if (index == end) { %>
+        <% return index; %>
+    <% } %>
+    <div class="column">
+      <div class="box">
+      <a href="<%= element.slug %>%>">
+          <div class="img-box">
+            <img src="/images/product/<%= element.images[0].fileName %>" alt="" class="img-fluid">
+          </div>
+        </a>
+      
+        <div class="detail-box">
+          <div class="item1">
+  
+            <a style="font-weight: bold;" href="<%= element.slug %>%>">
+              <%= element.title %>
+            </a>
+          </div>
+          
+          
+        
+          <div class="item3">
+            <a class="item3" href="<%= element.slug %> %>">
+              <%= element.price %>TL
+              <% if (element.discont) { %>
+                <span style="margin-right: 5px; text-decoration: line-through;  color: #D80032; ">
+                  <%= element.oldPrice %>TL
+                </span>
+                <% } %>
+            </a>
+          </div>
+  
+            <form class="item2" data-tooltip="Sepete Ekle" action="/addBasket" method="post">
+              <i 
+              id="add_to_basket_icon" 
+              class="fa fa-cart-plus" 
+              style="font-size:x-large; border: 0;"></i>
+              <input type="hidden" name="id" value="<%= element.id %>">
+                <input type="hidden" name="title" value="<%= element.title %>">
+                <input id="selectedColor" type="hidden" name="color" value="<%= element.color[0] %>">
+                <input type="hidden" name="price" value="<%= element.price %>">
+                <input type="hidden" name="oldPrice" value="<%= element.oldPrice %>">
+                <input type="hidden" name="count" value="1">
+                <input type="hidden" name="options[]" value="">
+                <input type="hidden" name="prices[]" value="">
+              <% if (element.giftContent) { %>
+                <input type="hidden" name="giftContent" value="<%= element.giftContent %>">
+                <% } else { %>
+                <input type="hidden" name="giftContent" value="">
+              <% } %>
+              <input type="hidden" name="image" value="/images/product/<%= element.images[0].fileName %>">
+            </form>
+        </div>
+        <%- include('label', {element}) %>
+      
+    </div>
+  </div>
+<% }) %>
+
+
+<!-- index === 0 || element.highlight ? 'col-sm-6' :  --> 

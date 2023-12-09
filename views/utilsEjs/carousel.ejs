@@ -1,0 +1,27 @@
+<% carrousel.forEach((element, index) => { %>
+    <div class="<%= index == 0 ? 'carousel-item active' : 'carousel-item ' %>">
+        <div class="container-fluid ">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="detail-box carrouseldetail">
+                        <h1>
+                            <%= element.title %>
+                        </h1>
+                        <p>
+                            <%= element.content %>
+                        </p>
+                        <!-- <div class="btn-box">
+                            <a href="" class="btn1">
+                                iletişim
+                            </a>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="img-box" >
+                        <img  class="" src="./images/product/<%= element.images %>" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><% }) %>
