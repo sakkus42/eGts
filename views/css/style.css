@@ -491,8 +491,9 @@ header.sticky{
 
 
 .shop_section .box .img-box img {
-  max-width: 250px;
-  max-height: 250px;
+  /* width: 100%;height: 100%; */
+  max-width:  250px;
+  max-height:  250px;
 }
 
 .shop_section .box .detail-box {
@@ -501,6 +502,8 @@ header.sticky{
   display: flex;
   -webkit-box-pack: justify;
       flex-direction: column;
+      justify-content: center;
+      height: 75px;
           
 }
 
@@ -508,9 +511,6 @@ header.sticky{
   /* text-align: end; */
 }
 
-.shop_section .box .detail-box .item2{
-  text-align: center;
-}
 
 .shop_section .box .detail-box .item3{
   opacity: 0.8;
@@ -534,7 +534,7 @@ header.sticky{
   opacity: 0;
   transition: opacity 0.1s ease-in-out;
   /* bottom: calc(100%); */
-  transform: translateX(-40%);
+  transform: translate(-70%, -100%);
   white-space: nowrap;
 }
 
@@ -545,15 +545,12 @@ header.sticky{
 
 .shop_section .box .detail-box div a{
   color: #000000!important;
-  text-transform: uppercase;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
+  text-transform:capitalize;
 }
 
 .shop_section .box .detail-box {
-  margin-top: 10px;
   padding-top: 10px;
-  background-color: #f1f1f1;
+  background-color: rgb(236,236,236);
 }
 
 .shop_section .box .detail-box div  {
@@ -581,9 +578,12 @@ header.sticky{
   font-size: 15px;
 }
 
+
+
 .shop_section .box .new-right {
+  padding: 7px 7px;
   position: absolute;
-  top: 0;
+  bottom: 80px;
   right: 0;
   /* background-color: #EE9322; */
   color: #ffffff;
@@ -599,12 +599,6 @@ header.sticky{
   font-size: 15px;
 }
 
-.new-right i:hover{
-  color: black;
-}
-.new-right i{
-  color: var(--orange);
-}
 
 
 .shop_section .btn-box {
@@ -1206,7 +1200,7 @@ label {
 
 #add_to_basket_icon{
   color: var(--orange);
-  background-color: #f1f1f1;
+  background-color: #F3F8FF;
 }
 
 
@@ -1261,7 +1255,7 @@ label {
 }
 
 .img-btn:hover::after {
-  border: 3px solid var(--orange); 
+  /* border: 3px solid var(--orange); */
   opacity: 0.5;
 }
 
@@ -1474,10 +1468,6 @@ background-color: #fff;
 border-radius: 10%;
 width: 20%;
 margin-right: 10%;
-transition: 0.74s;
-}
-.basket-img:hover{
-transform: scale(1.5);
 }
 .basket-title {
 font-weight: 500;

@@ -25,7 +25,7 @@ data.sizeC = data.arrayCatalog.length;
 
 
 router.post("/addBasket", (req, res) => {
-    let {id, price, image, title, oldPrice, count, color, giftContent, options, prices, newId} = req.body;
+    let {id, price, image, title, oldPrice, count, color, giftContent, options, prices, newId, slug} = req.body;
     console.log(req.body.image)
     if (options && options[0] !== 'undefined'){
         options = String(options).split(",");
@@ -35,7 +35,6 @@ router.post("/addBasket", (req, res) => {
     const basket = req.session.basket;
     if (typeof count !== 'undefined' && typeof count !== 'number') { count = Number(count); }
     let found = false;
-    console.log("selam1")
     for (let i = 0; i < basket.length; i++){
         console.log(cntrlOptions(basket[i].options, options).length)
         if (basket[i].title != title){
@@ -60,6 +59,7 @@ router.post("/addBasket", (req, res) => {
             giftContent,
             options,
             prices,
+            slug,
             newId: "id" + Math.random().toString(16).slice(2),
             price: Number(price), 
             oldPrice: Number(oldPrice), 

@@ -86,6 +86,10 @@
     font-size: 12px!important;
   }
   
+  .iconBasket{
+    width: 20px;
+    height: 20px;
+  }
   #logo{
     width: 65px;
   }
@@ -93,8 +97,14 @@
     font-size: 20px;
   }
   .shop_section .box .detail-box{
-    height: 90px;
+    justify-content: center;
+    height: 75px;
   }
+
+  .shop_section .box .new-right {
+    bottom: 80px;
+  }
+
   .green-label {
     font-size: 9px;
     font-weight: 500;
@@ -103,10 +113,11 @@
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   }
 
-
+  
   .shop_section .box .img-box img {
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 250px;
+    max-height: 250px;
+    overflow: hidden;
   }
   .layout_padding {
     padding: 45px 10px;
@@ -154,6 +165,7 @@
     width: 100%!important;
     display: contents;
     margin: 0;
+    text-align: center;
   }
   .img-fluid {
     max-width: 50%;

@@ -39,6 +39,6 @@ app.use('/user', userRouter);
 app.use('/admin', adminRouter);
 app.use('/', mainRouter);
 
-app.listen(PORT, (req, res) => {
+app.listen(PORT, '192.168.1.3', (req, res) => {
     console.log(`Listen ${PORT} server`);
 });

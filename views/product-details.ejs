@@ -220,6 +220,7 @@
               <input type="hidden" name="price" value="<%= data.price %>">
               <input type="hidden" name="oldPrice" value="<%= data.oldPrice %>">
               <input type="hidden" name="count" value="1">
+              <input type="hidden" name="count" value="<%= data.slug %>">
               <input type="hidden" name="image" value="/images/product/<%= data.images[0].fileName %>">
               <input type="hidden" name="options[]" value="">
               <input type="hidden" name="prices[]" value="">
@@ -356,14 +357,44 @@
 </script>
 <!-- custom js -->
 <script src="../js/custom.js"></script>
+<script src="../js/rowListener.js"></script>
 <!-- Google Map -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
 <script>
   $(document).ready(function(){
+
+    var imagePaths = [];
+    var index = 0;
+
+    $(".img-btns .img-btn__img").each(function(){
+        var imagePath = $(this).attr("src"); // Resim yolunu alın
+        imagePaths.push(imagePath); // Diziye resim yolunu ekleyin
+    });
+    if (imagePaths.length == 1){
+      $(".img-main__btnlft").css("display", "none");  
+      $(".img-main__btnrgt").css("display", "none");  
+    }
     $(".img-btn").on("click", function(ev) {
       const img = $(this).find("img.img-btn__img").attr("src");
       $(".img-main").attr("src", img);
-      console.log(img);
+    });
+
+    $(".img-main__btnlft").on("click", function(ev) {
+      if (index == 0){
+        index = imagePaths.length - 1;
+      }else{
+        index -= 1;
+      }
+      $(".img-main").attr("src", imagePaths[index]);
+    });
+
+    $(".img-main__btnrgt").on("click", function(ev) {
+      if (index == imagePaths.length - 1){
+        index = 0;
+      }else{
+        index += 1;
+      }
+      $(".img-main").attr("src", imagePaths[index]);
     });
 
     $('#colorSelect').on('change', function() {

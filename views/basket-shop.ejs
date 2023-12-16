@@ -56,7 +56,9 @@
               <% var totalOption = 0  %>
               <div class="basket-item">
                 <div class="basket-img">
-                  <img src="<%= element.image %>" alt="" class="img-fluid">
+                  <a href="<%= element.slug %>">
+                    <img src="<%= element.image %>" alt="" class="img-fluid">
+                  </a>
                 </div>
                 <div class="basket-title">
                     <span style="color: #435062!important; font-weight:600"><%= element.title.toUpperCase() %>  </span>
