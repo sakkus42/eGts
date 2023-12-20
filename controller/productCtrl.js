@@ -120,6 +120,10 @@ const addImport = async (req, res) => {
     res.end();
 }
 
+const searchProduct = async (req, res){
+
+}
+
 module.exports = {
     createProduct,
     getAllProducts,
@@ -128,4 +132,5 @@ module.exports = {
     campaignUpdate,
     deleteImage,
     addImport,
+    searchProduct,
 };

@@ -3,7 +3,7 @@ const router = express.Router();
 
 const User = require("../model/User");
 const { authenticateToken, authCtrl } = require("../middleWare/authMiddleware");
-const { getAllProduct } = require("../model/Product");
+const {searchProduct} = require("../controller/productCtrl");
 const Product = require("../model/Product");
 const { getAll } = require("../model/Carrousel");
 const Carrousel = require("../model/Carrousel");
@@ -86,7 +86,7 @@ router.get("/basket", authCtrl, async (req, res) => {
 });
 
 
-
+router.get("/search", authCtrl, searchProduct);
 router.get("/accessuar", authCtrl, async (req, res) => {
     const [accessuar] = await Product.getAllProductByCategory("aksesuar");
     res.render("accessuar",  {accessuar: accessuar.reverse(), isLog: res.locals.isLog});
