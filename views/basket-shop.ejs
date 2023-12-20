@@ -12,7 +12,7 @@
   <meta name="author" content="" />
   <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 
-  <title>E-GTS Kulaklık</title>
+  <title>E-GTS Sepetiniz</title>
 
 
   <!-- bootstrap core css -->
@@ -108,16 +108,19 @@
             <% }) %>
         </div>
         <div class="right-container">
-          <div class="basket-accept">
-            <button class="btn btn--orange">
-              Sepeti Onayla
-            </button>
-          </div>
           <div class="basket-subtract">
             <% if (total1 != total) { %>
               <span style="text-decoration: line-through; opacity: 0.5; color: #435062!important; font-weight:600">Toplam Sipariş Ücreti: <%= total1 + totalOptions %>TL</span>          
             <% } %>
-            <span style="color: #435062!important; font-weight:600"> Toplam Sipariş Ücreti: <%= total + totalOptions %>TL</span>
+            <span style="color: #435062!important; font-weight:800; font-size: large;"> Toplam Sipariş Ücreti: <%= total + totalOptions %>TL</span>
+          </div>
+          <div class="not">
+            <textarea class="form-control" placeholder="Satıcıya not" name="not" id="not" cols="15" rows="5"></textarea>
+          </div>
+          <div class="basket-accept">
+            <button class="btn btn--orange">
+              Ödeme Yap
+            </button>
           </div>
         </div>
       </div>

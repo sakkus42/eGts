@@ -86,7 +86,7 @@ router.get("/basket", authCtrl, async (req, res) => {
 });
 
 
-router.get("/search", authCtrl, searchProduct);
+router.post("/search", authCtrl, searchProduct);
 router.get("/accessuar", authCtrl, async (req, res) => {
     const [accessuar] = await Product.getAllProductByCategory("aksesuar");
     res.render("accessuar",  {accessuar: accessuar.reverse(), isLog: res.locals.isLog});

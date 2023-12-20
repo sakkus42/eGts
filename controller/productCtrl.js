@@ -120,8 +120,29 @@ const addImport = async (req, res) => {
     res.end();
 }
 
-const searchProduct = async (req, res){
+const searchProduct = async (req, res) => {
+    const searchKey  = req.body.searchKey.trim();
+    const regex = /['`"%\\]/
+    if (regex.test(searchKey)){
+        res.render('ara', {data: []})
+        return;
+    }
+    console.log(searchKey)
+    const [categoryPrdcts] = await Product.getAllProductByCategory(searchKey);
+    const [titlePrdcts] = await Product.findByTitle(searchKey);
+    const [brandPrdcts] = await Product.getAllBrand(searchKey);
+    const [isTitlePrdct] = await Product.getAllKeyTitle(searchKey);
+    let prdcts = categoryPrdcts.concat(titlePrdcts).concat(brandPrdcts).concat(isTitlePrdct);
+    const ids = [];
+    prdcts = prdcts.filter(data => {
+        if (!ids.includes(data.id)) {
+            ids.push(data.id);
+            return true;
+        }
+        return false;
+    });
 
+    res.render('ara', { data: prdcts });
 }
 
 module.exports = {

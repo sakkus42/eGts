@@ -111,6 +111,16 @@ class Product {
         return db.execute(sql);
     }
 
+    static getAllBrand(model) {
+        const sql = `SELECT * FROM products WHERE brand = "${model}"`;
+        return db.execute(sql);
+    }
+
+    static getAllKeyTitle(title) {
+        const sql = `SELECT * FROM products WHERE title LIKE '%${title}%'`;
+        return db.execute(sql);
+    }
+
 };
 
 module.exports = Product;

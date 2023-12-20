@@ -12,10 +12,6 @@
 }
 
 @media (max-width: 1120px) {
-  .rowProduct {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    justify-content: center;
-  }
   .form-popup {
     width: 35%;
   }
@@ -139,7 +135,7 @@
     font-weight: 500;
   }
   .rowProduct {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 0,2fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 0.5fr));
   }
   
   .layout_padding {
@@ -274,6 +270,9 @@
 }
 
 @media only screen and (max-width: 1170px) {
+  .cart-container {    
+    padding: 0px 0px;
+  }
   .cart-container {
     grid-template-columns: 1fr;
   }
