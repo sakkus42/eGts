@@ -1065,7 +1065,6 @@ header.sticky{
           align-items: stretch;
 }
 
-.
  .map_container .map {
   height: 100%;
   -webkit-box-flex: 1;
@@ -1228,6 +1227,7 @@ label {
   cursor: pointer;
   margin-bottom: 35px;
   transition: 1.2s;
+  object-fit: scale-down;
 }
 
 .img-main:hover {
@@ -1605,9 +1605,9 @@ background-color: #faf9fa;
   background-color: var(--orange);
   transition: width 0.3s ease-in-out; /* Geçiş efekti */
 }
-.sortTag:hover::after{
-  width: 100%;
-}
+
+.sortTag:hover:after{ width: 100%; }
+.sort .btn:hover .sortTag::after{ width: 100%; }
 
 
 #selectedSort svg{
@@ -1659,6 +1659,10 @@ background-color: #faf9fa;
 .logo{
   display: flex;
   align-items: center;
+}
+
+.logo img{
+  vertical-align: super;
 }
 
 .searchInput {

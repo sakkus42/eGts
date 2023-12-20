@@ -24,7 +24,14 @@ const getAllProducts = async (req, res) => {
 const delProduct = async (req, res) => {
     const {id} = req.params;
     const [product, _] = await Product.findById(id);
-    product[0].images.some(image => fs.unlinkSync(`./views/images/product/${image.fileName}`))
+    product[0].images.some((image )=> {
+        const fs = require('fs');
+        if (fs.existsSync('dosya_yolu')) {
+            fs.unlinkSync('dosya_yolu');
+        } else {
+            console.log('Dosya bulunamadı.');
+        }
+    })
     Product.delById(id);
     res.json();
 };

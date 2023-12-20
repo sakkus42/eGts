@@ -119,8 +119,8 @@
       <%- include('utilsEjs/scriptPath') %>
 <script>
   $('#carrouselTable').on('click', 'button.btn.btn-warning', async function() {
-    console.log("burdayız");
     var prdctId = $(this).closest('tr').find('td:first').text(); 
+    console.log(prdctId);
     const res = await fetch(`/admin/delCarrousel/${prdctId}`, {
         method: "PUT"
     });

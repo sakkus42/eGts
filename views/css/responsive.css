@@ -80,7 +80,9 @@
 
 
 @media (max-width: 768px) {
-  
+  .productImgMain{
+    height: 400px;
+  }
   .headerBar{
     grid-template-columns: 1fr 1fr;
   }
@@ -125,11 +127,11 @@
   }
   .shop_section .box .detail-box{
     justify-content: center;
-    height: 75px;
+    height: 90px;
   }
 
   .shop_section .box .new-right {
-    bottom: 80px;
+    bottom: 90px;
   }
 
   .green-label {

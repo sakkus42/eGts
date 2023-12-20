@@ -21,9 +21,11 @@ const createCarrousel = async (req, res) =>  {
 }
 
 const deleteCarrousel = async (req, res) => {
+    console.log("selam");
     const sql = `DELETE FROM carrousel WHERE id = '${req.params.id}'`
     await db.execute(sql);
     res.end();
+    return;
 }
 
 
