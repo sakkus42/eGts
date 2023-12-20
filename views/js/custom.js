@@ -2,6 +2,7 @@
 
 // $('#search').addEventListener('click', () => {
 // })
+
 function searchOpen(){
     console.log(document.getElementsByClassName('searchInput')[0].style.display);
     var header = document.querySelector('header');
@@ -16,16 +17,15 @@ function searchOpen(){
 let flag = false;
 window.onload = function() {
 
-    document.getElementById('search').addEventListener('click', () => {
-        flag = flag ? false : true;
-        searchOpen();
+    // document.getElementById('search').addEventListener('click', () => {
+    //     flag = flag ? false : true;
+    //     searchOpen();
+    // })
     
-    })
-    
-    document.getElementsByClassName('navbar-toggler')[0].addEventListener('click', () => {
-        flag = flag ? false : true;
-        // searchOpen();
-    })
+    // document.getElementsByClassName('navbar-toggler')[0].addEventListener('click', () => {
+    //     flag = flag ? false : true;
+        
+    // })
 
     var lastScrollTop = 0;
     window.addEventListener('scroll', function() {

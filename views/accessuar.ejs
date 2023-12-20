@@ -35,6 +35,7 @@
         <!-- header section strats -->
       <%- include('utilsEjs/headerSection') %>
       <section class="shop_section layout_padding">
+        <%- include('utilsEjs/sort.ejs') %>
         <div class="containerProduct">
           <div class="rowProduct">
             <%- include('utilsEjs/row', { data: accessuar, end: accessuar.length, name: "accessuar" }) %>

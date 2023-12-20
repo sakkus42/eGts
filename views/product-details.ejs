@@ -105,6 +105,11 @@
       color: #666;
     }
 
+    .productImgMain{
+      display: flex;
+      justify-content: center;
+    }
+
   </style>
 
   <title>E-GTS Akıllı Saat</title>
@@ -150,7 +155,9 @@
             />
           </button>
 
-          <img src="/images/product/<%= data.images[0].fileName %>" alt="fotoğraf" class="img-main" />
+          <div class="productImgMain">
+            <img src="/images/product/<%= data.images[0].fileName %>" alt="fotoğraf" class="img-main" />
+          </div>
 
 
           <div class="img-btns">
