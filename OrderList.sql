@@ -12,7 +12,7 @@ CREATE TABLE orderlist (
     address      TEXT DEFAULT NULL,
     note          TEXT DEFAULT NULL,
     cargoNumber   VARCHAR(100) DEFAULT NULL,
-    orderHistory   CURRENT_TIMESTAMP DEFAULT NOW()
-    close          BOOLEAN DEFAULT 0
+    orderHistory   CURRENT_TIMESTAMP DEFAULT NOW(),
+    close          BOOLEAN DEFAULT 0,
     pay          BOOLEAN DEFAULT 0
 );
