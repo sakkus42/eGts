@@ -99,6 +99,11 @@ class Product {
         return db.execute(sql);
     }
 
+    static getAllProductByCategoryIsQuantity(category){
+        const sql = `SELECT * FROM products WHERE category = '${category}' AND quantity != 0`;
+        return db.execute(sql);
+    }
+
     static getAllImportProduct(){
         const sql = `SELECT * FROM products WHERE import = 1`;
         return db.execute(sql);

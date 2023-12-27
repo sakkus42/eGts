@@ -11,14 +11,20 @@ const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 const path = require('path');
 const session = require("express-session");
+const cors = require("cors");
+require('dotenv').config();
+
+
+const transporter  = require("./middleWare/mail");
 
 
 require("dotenv").config();
 app.set("view engine", "ejs");
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'views')));
 
 app.use(session({
-  secret: "7Gb3Mkcj4A-",
+  secret: process.env.PASS,
   resave: false,
   saveUninitialized: false,
 }));
@@ -34,11 +40,16 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 app.use(cookieParser())
 
+app.post('/emailOnay/', function(req,res){
+  
+  res.end();
+});
 app.use('/user', userRouter);
 // app.use('/product', productRouter);
 app.use('/admin', adminRouter);
 app.use('/', mainRouter);
 
-app.listen(PORT, (req, res) => {
+
+app.listen(PORT, '192.168.1.3',(req, res) => {
     console.log(`Listen ${PORT} server`);
 });

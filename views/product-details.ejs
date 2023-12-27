@@ -112,6 +112,23 @@
       width: 100%;
     }
 
+    .swiper {
+      display: none!important;
+    }
+
+    
+    .swiper-button-next ,
+    .swiper-button-prev {
+      color: #ee9322!important;; /* Önceki butonun rengi kırmızı */
+    }
+
+    .swiper-scrollbar-drag,
+    .swiper-pagination span {
+      background-color: #ee9322!important;
+    }
+
+
+
   </style>
 
   <title>E-GTS Akıllı Saat</title>
@@ -130,6 +147,12 @@
   <link href="../css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="../css/responsive.css" rel="stylesheet" />
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+  />
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 
 <body>
@@ -142,22 +165,26 @@
       <%- include('utilsEjs/headerSection') %>
       <main class="item">
         <section class="img">
-          <button class="img-main__btnlft img-main__btn">
-            <img
-              src="../images/icon-next.svg"
-              alt="next symbol image"
-              class="img-main__btnlft-img img-main__btn-img"
-            />
-          </button>
-          <button class="img-main__btnrgt img-main__btn">
-            <img
-              src="../images/icon-next.svg"
-              alt="next symbol image"
-              class="img-main__btnrgt-img img-main__btn-img"
-            />
-          </button>
+          <div class="swiper">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+              <% data.images.forEach(el => { %>
+                <div class="swiper-slide">
+                  <div class="productImgMain">
+                    <img src="/images/product/<%= el.fileName %>" alt="fotoğraf" class="img-main" />
+                  </div> 
+                </div>
+              <% }) %>
+            </div>
+            
+            <div class="swiper-pagination"></div>
 
-          <div class="productImgMain">
+    
+            <!-- If we need scrollbar -->
+            
+          </div>
+
+          <div class="productImgMain" id="dspNone">
             <img src="/images/product/<%= data.images[0].fileName %>" alt="fotoğraf" class="img-main" />
           </div>
 
@@ -229,7 +256,7 @@
               <input type="hidden" name="price" value="<%= data.price %>">
               <input type="hidden" name="oldPrice" value="<%= data.oldPrice %>">
               <input type="hidden" name="count" value="1">
-              <input type="hidden" name="count" value="<%= data.slug %>">
+              <input type="hidden" name="slug" value="<%= data.slug %>">
               <input type="hidden" name="image" value="/images/product/<%= data.images[0].fileName %>">
               <input type="hidden" name="options[]" value="">
               <input type="hidden" name="prices[]" value="">
@@ -277,83 +304,7 @@
           </div> -->
         </div>
       </section>
-      <footer class="footer_section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 col-lg-3 footer-col">
-              <div class="footer_detail">
-                <h4>
-                  Hakkımızda
-                </h4>
-                <p>
-                  Üç senedir akıllı saat ve kulaklık satışımız bulunmaktadır instagram üzerinden bugünden itibaren satın alımları gerçeklerştirmek için artık web sitemiz vardır.
-                </p>
-                <div class="footer_social">
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-3 footer-col">
-              <div class="footer_contact">
-                <h4>
-                  Reach at..
-                </h4>
-                <div class="contact_link_box">
-                  <a href="">
-                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    <span>
-                      Location
-                    </span>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-phone" aria-hidden="true"></i>
-                    <span>
-                      Call +01 1234567890
-                    </span>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                    <span>
-                      demo@gmail.com
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-3 footer-col">
-              <div class="footer_contact">
-                <h4>
-                  Subscribe
-                </h4>
-                <form action="#">
-                  <input type="text" placeholder="Enter email" />
-                  <button type="submit">
-                    Subscribe
-                  </button>
-                </form>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-3 footer-col">
-              <div class="map_container">
-                <div class="map">
-                  <div id="googleMap"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="footer-info">
-            <p>
-              &copy; <span id="displayYear"></span> All Rights Reserved By
-              <a href="https://html.design/">Free Html Templates</a>
-            </p>
-          </div>
-        </div>
-      </footer>
+      <%- include('utilsEjs/footer') %>
     </div>
 <script src="../js/jquery-3.4.1.min.js"></script>
 <!-- popper js -->
@@ -440,6 +391,20 @@ checkboxes.forEach(function(checkbox) {
       console.log(priceInput);
     }
   });
+});
+
+
+const swiper = new Swiper('.swiper', {
+  // Optional parameters
+  direction: 'horizontal',
+  loop: true,
+
+  // If we need pagination
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true,
+  },
+
 });
 
 

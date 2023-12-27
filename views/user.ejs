@@ -50,6 +50,8 @@
       grid-template-columns: 1fr 0.75fr;
       grid-column-gap: 20px;
     }
+
+    
   </style>
 </head>
 <body>
@@ -60,7 +62,13 @@
         <div class="login-container">
           <div class="login-info">
             <h2>Merhaba,</h2>
-            <span>Sayfamıza giriş yapabilirsiniz yada üye olabilirsiniz</span>
+            <span>
+              <% if (typeof confirm !== 'undefined') { %>
+                <%= confirm %>
+                <% } else { %>
+                  Sayfamıza giriş yapabilirsiniz yada üye olabilirsiniz
+              <% } %>
+            </span>
           </div>
           <div class="form-popup" id="<%= typeof errorE !== 'undefined' || typeof errorP !== 'undefined' ? "myFormSign" :  "myForm"%>"">
             <form action="/user/login" method="post" class="form-container">
@@ -73,162 +81,69 @@
               <input type="password" id="password" placeholder="Şifrenizi Giriniz" name="psw" required>
               <% if (typeof message !== 'undefined') { %>
                 <div class="message">
-                  <span style="opacity: 0.5; color: rgba(255, 0, 0, 0.833);"> hatalı şifre yada e-posta! </span>
+                  <span style="opacity: 0.5; color: rgba(255, 0, 0, 0.833);"> <%= message %> </span>
                 </div>
               <% } %>
               <button type="submit" class="btn">Giriş Yap</button>
               <button type="button" class="btn clickBtn" id="signUp">Üye Ol</button>
             </form>
           </div>
-
-          <div class="form-popup" id="<%= typeof errorE !== 'undefined' || typeof errorP !== 'undefined' ? "myForm" :  "myFormSign"%>">
-            <% if (typeof errorE == 'undefined' && typeof errorP == 'undefined') { %>
-              <form action="/user/register" method="post" class="form-container">
-                <h1>Üye Ol</h1>
-                
-                <label for="email"><b>E-Posta</b></label>
-                <input type="text" id="email1"  placeholder="E-Posta'nızı Giriniz" name="email" required>
-                
-                <label for="phone"><b>Telefon Numarası</b></label>
-                <input type="text" id="phone"  placeholder="Telefon Numaranızı Giriniz" name="phone" required>
-                <div class="nameSirname">
-                  <div>
-                    <label for="name"><b>Ad</b></label>
-                  </div>
-                  <div>
-                    <label for="sirname"><b>Soyad</b></label>
-                  </div>
-                  <input type="text" id="name"  placeholder="Ad" name="name" required>
-                  <input type="text" id="sirname"  placeholder="Soyad" name="sirname" required>
+          <div class="form-popup" id="<%= (typeof errorE !== 'undefined' || typeof errorP !== 'undefined') ? 'myForm' : 'myFormSign' %>">
+            <form action="/user/register" method="post" class="form-container">
+              <h1>Üye Ol</h1>
+              
+              <label for="email"><b>E-Posta</b></label>
+              <input type="text" id="email1"  
+              placeholder="E-Posta'nızı Giriniz" 
+              name="email" 
+              value="<%= (typeof user !== 'undefined' && user.email) || '' %>"
+              onblur="checkEmail()"
+              required>
+              <p style="color: red;" id="emailErr">Geçersiz e-posta</p>
+              <% if (typeof errorE !== 'undefined') { %>
+                  <p id='errorE' style="color: red;"><%= errorE %></p>
+              <% } %>
+              
+              
+              <label for="phone"><b>Telefon Numarası</b></label>
+              <input 
+                type="tel" id="phone" name="phone"  
+                placeholder="Telefon Numaranızı Giriniz" 
+                value="<%= (typeof errorP !== 'undefined') ? '' : ((typeof user !== 'undefined' && user.phone) || '') %>" 
+                onblur="checkPhone()"
+                required
+              >
+              <p style="color: red;" id="phoenErr">Geçersiz telefon numarası</p>
+              <% if (typeof errorP !== 'undefined') { %>
+                <p id='errorP' style="color: red;"><%= errorP %></p>
+              <% } %>
+          
+              <div class="nameSurname">
+                <div>
+                  <label for="name"><b>Ad</b></label>
+                  <label for="surname"><b>Soyad</b></label>
                 </div>
-                
-                <label for="psw"><b>Şifre</b></label>
-                <input type="password" id="psw1" placeholder="Şifrenizi Giriniz" name="psw" required>
-                <input type="password" id="psw1r" placeholder="Şifrenizi Tekrar Giriniz" name="psw" required>
-                <p id="passwordError" style="color: red;"></p>
-  
-                <button type="submit" class="btn">Üye Ol</button>
-                <button type="button" class="btn clickBtn" id="login">Giriş Yap</button>
-              </form>
-              <% } else { %>
-                <form action="/user/register" method="post" class="form-container">
-                  <h1>Üye Ol</h1>
-                  
-                  <label for="email"><b>E-Posta</b></label>
-                  <input type="text" id="email1"  placeholder="E-Posta'nızı Giriniz" name="email" value="<%= user.email %>" required>
-                  <% if (typeof errorE !== 'undefined') { %>
-                    <p  style="color: red;">Bu maile sahip kullanıcı zaten kayıtlı</p>
-                  <% } %>
-                  <label for="phone"><b>Telefon Numarası</b></label>
-                  <input type="text" id="phone"  placeholder="Telefon Numaranızı Giriniz" name="phone" value="<%= user.phone %>" required>
-                  <% if (typeof errorP !== 'undefined') { %>
-                    <p  style="color: red;">Bu telefon numarasına sahip kullanıcı zaten kayıtlı</p>
-                  <% } %>
-                  <div class="nameSirname">
-                    <div>
-                      <label for="name"><b>Ad</b></label>
-                    </div>
-                    <div>
-                      <label for="sirname"><b>Soyad</b></label>
-                    </div>
-                    <input type="text" id="name"  placeholder="Ad" name="name" value="<%= user.name %>" required>
-                    <input type="text" id="sirname"  placeholder="Soyad" name="sirname" value="<%= user.sirname %>" required>
-                  </div>
-                  
-                  <label for="psw"><b>Şifre</b></label>
-                  <input type="password" id="psw1" placeholder="Şifrenizi Giriniz" name="psw" value="<%= user.psw[0] %>" required>
-                  <input type="password" id="psw1r" placeholder="Şifrenizi Tekrar Giriniz" name="psw" value="<%= user.psw[1] %>" required>
-                  <p id="passwordError" style="color: red;"></p>
-    
-                  <button type="submit" class="btn">Üye Ol</button>
-                  <button type="button" class="btn clickBtn" id="login">Giriş Yap</button>
-                </form>
-            <% }%>
+                <div>
+                </div>
+                <input type="text" id="name"  placeholder="Ad" name="name" value="<%= (typeof user !== 'undefined' && user.name) || '' %>" required>
+                <input type="text" id="sirname"  placeholder="Soyad" name="sirname" value="<%= (typeof user !== 'undefined' && user.sirname) || '' %>" required>
+              </div>
+              
+              <label for="psw"><b>Şifre</b></label>
+              <input type="password" id="psw1" placeholder="Şifrenizi Giriniz" value="" name="psw" required>
+              <p id="passwordError" style="color: red;"></p>
+          
+              <button type="submit" class="btn">Üye Ol</button>
+              <button type="button" class="btn clickBtn" id="login">Giriş Yap</button>
+            </form>
           </div>
+          
+          
         </div>
         </section>
-        <footer class="footer_section">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-6 col-lg-3 footer-col">
-                <div class="footer_detail">
-                  <h4>
-                    Hakkımızda
-                  </h4>
-                  <p>
-                    Üç senedir akıllı saat ve kulaklık satışımız bulunmaktadır instagram üzerinden bugünden itibaren satın alımları gerçeklerştirmek için artık web sitemiz vardır.
-                  </p>
-                  <div class="footer_social">
-                    <a href="">
-                      <i class="fa fa-instagram" aria-hidden="true"></i>
-                    </a>
-                    <a href="">
-                      <i class="fa fa-whatsapp" aria-hidden="true"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-3 footer-col">
-                <div class="footer_contact">
-                  <h4>
-                    Reach at..
-                  </h4>
-                  <div class="contact_link_box">
-                    <a href="">
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      <span>
-                        Location
-                      </span>
-                    </a>
-                    <a href="">
-                      <i class="fa fa-phone" aria-hidden="true"></i>
-                      <span>
-                        Call +01 1234567890
-                      </span>
-                    </a>
-                    <a href="">
-                      <i class="fa fa-envelope" aria-hidden="true"></i>
-                      <span>
-                        demo@gmail.com
-                      </span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-3 footer-col">
-                <div class="footer_contact">
-                  <h4>
-                    Subscribe
-                  </h4>
-                  <form action="#">
-                    <input type="text" placeholder="Enter email" />
-                    <button type="submit">
-                      Subscribe
-                    </button>
-                  </form>
-                </div>
-              </div>
-              <div class="col-md-6 col-lg-3 footer-col">
-                <div class="map_container">
-                  <div class="map">
-                    <div id="googleMap"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="footer-info">
-              <p>
-                &copy; <span id="displayYear"></span> All Rights Reserved By
-                <a href="https://html.design/">Free Html Templates</a>
-              </p>
-            </div>
-          </div>
-        </footer>
+        <%- include('utilsEjs/footer') %>
         <script>
         </script>
       <%- include('utilsEjs/scriptPath') %>
-      <script>
-        checkPsw("psw1", "psw1r", "passwordError");
-      </script>
 </body>
 </html>

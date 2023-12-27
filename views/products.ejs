@@ -80,14 +80,12 @@
     <%- include('./utilsEjs/admin_menu') %>
     <div class="option-scale">
       <div class="products">
-        <form name="productSearch" id="productSearch">
-          <input type="search" id="search">
-          <button type="submit" class="btn" id="searchProduct" style="background-color: #343a40; color: white;">ara</button>
-        </form>
-        <div id="searchRes">
+        <div id="tableTop">
+          <input type="search" id="search" onkeyup="handleKeyPress(event)">
+          <button type="submit" onclick="searchTable()" class="btn" id="searchProduct" style="background-color: #343a40; color: white;">ara</button>
         </div>
         <table id="productTable" class="table table-hover">
-          <thead class="thead-dark" 
+          <thead class="thead-dark"> 
             <tr>
               <th scope="col">Ürün İsmi</th>
               <th scope="col">Kategori</th>
@@ -104,7 +102,7 @@
             <% products.forEach((element) => { %>
               <tr id="<%= element.slug %>">
                 <td style="display: none;"><%= element.id %></td>
-                <td><%= element.title %></td>
+                <td class="infoContent"><%= element.title %></td>
                 <td><%= element.category %></td>
                 <td><%= element.brand %></td>
                 <td><%= element.price %>TL</td>
@@ -146,37 +144,6 @@
       $(this).addClass('btn-danger');
       $(this).removeClass('btn-primary');
 
-    }
-  });
-
-  $('#productSearch').submit(async function(event) {
-    event.preventDefault(); 
-
-    var searchQuery = $('#search').val();
-
-    console.log('Aranan: ', searchQuery);
-    const res = await fetch(`/admin/search/${searchQuery}`, {
-        method: "GET"
-    });
-    const response = await res.json();
-    const prdct = response.prdct;
-    
-    if (!prdct){
-      const txt = $("<p></p>").text("Aradığınız ürün bulunamadı");
-      txt.css("color", "red")
-      $('#searchRes').append(txt);
-      setTimeout(() => {
-        $('#searchRes').find('p').remove(); 
-      }, 2000);
-    } else {
-      const prdctSearch = $(`#${prdct.slug}`).clone();
-      $(`#${prdct.slug}`).remove();
-      console.log(prdctSearch);
-      prdctSearch.css('background-color', '#C5E898');
-      setTimeout(function() {
-        prdctSearch.css('background-color', '');
-      }, 2000);
-      $('#productTable tbody').find('tr:first').before(prdctSearch);
     }
   });
 

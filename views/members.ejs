@@ -93,7 +93,9 @@
               <th scope="col">Telefon</th>
               <th scope="col">Ad</th>
               <th scope="col">Soyad</th>
+              <th scope="col">Hesap Aktifliği</th>
               <th scope="col">Engelle</th>
+              <th scope="col" title="Kullanıcı komple databaseden silinecek bir daha üye olabilecek bunun yerine engelle kullan">Sil&#63;</th>
               <!-- <th scope="col">Sil</th> -->
             </tr>
           </thead>
@@ -105,21 +107,38 @@
                 <td><%= element.phone %></td>
                 <td><%= element.name %></td>
                 <td><%= element.sirname %></td>
+                <td>
+                  <% 
+                    const orderDate = new Date(element.created);
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    const turkishDate = orderDate.toLocaleDateString('tr-TR', options);                    
+                  %>
+                  <% if (element.confirmEmail) { %>
+                    <%= turkishDate %> tarihinden beri <br> <span style="color: green;">hesap Aktif</span>
+                  <% } else { %>
+                        <%= turkishDate %> tarihinden beri <br> <span style="color: red;">hesap Aktif Değil</span>
+                  <% } %>
+                </td>
                 <% if (element.isBlocked) { %>
                   <td><button class="btn btn-success">Engeli Aç</button></td>                 
                   <% } else { %>
                   <td><button class="btn btn-warning">Engelle</button></td> 
                 <% } %>
+                <td><button class="btn btn-danger"
+                  title="Kullanıcı komple databaseden silinecek bir daha 
+                  üye olabilecek bunun yerine engelle kullan">
+                  Sil
+                </button></td> 
               </tr>
-              <%}); %>
             </tbody>
+            <%}); %>
         </table>
       </div>
     </div>
   </div>
   <%- include('utilsEjs/scriptPath') %>
   <script>
-    $('#userTable').on('click', 'button.btn', async function() {
+    $('#userTable').on('click', 'button.btn.btn-warning, button.btn.btn-success', async function() {
       var userId = $(this).closest('tr').find('td:first').text(); 
       const res = await fetch(`/admin/block/${userId}`, {
         method: "PUT"
@@ -135,6 +154,13 @@
         btn.addClass("btn-warning")
         btn.removeClass("btn-success");
       }
+    });
+    $('#userTable').on('click', 'button.btn.btn-danger', async function() {
+      var userId = $(this).closest('tr').find('td:first').text(); 
+      const res = await fetch(`/admin/delMember/${userId}`, {
+        method: "PUT"
+      });
+      var btn = $(this).closest('tr').remove();
     });
   </script>
 </body>

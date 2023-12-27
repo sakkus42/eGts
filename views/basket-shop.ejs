@@ -12,7 +12,7 @@
   <meta name="author" content="" />
   <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 
-  <title>E-GTS Sepetiniz</title>
+  <title>E-GTS Ödeme</title>
 
 
   <!-- bootstrap core css -->
@@ -26,101 +26,86 @@
 
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet" />
+  <link href="css/pay.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
 </head>
 
 <style>
-
+  
 </style>
-
-
-
 
 <body>
     <div class="hero_area">
       <%- include('utilsEjs/headerSection') %>
-      <div class="header-pb">Sepetim (<%= data.length %> ürün)</div>
-      <div class="cart-container">
-        <div class="left-container">
-          <% if (data.length == 0) { %>
-            <div class="basket-item">
-              <div class="basket-title">
-                <span style="opacity: 0.5;"> Herhangi Bir Ürün Yoktur </span>
+      <div class="pay-container">  
+        <div class="pay-right-container">
+          <div class="header-pay"> Sepetteki Ürünler </div>
+          
+          <% data.some(el => { %>
+            <div class="productNew">
+              <div class="imgScaleNew">
+                <a href="/<%= el.slug %>">
+                  <img src="<%= el.image %>" >
+                </a>
               </div>
-            </div>
-          <% } %>
-          <% var total1 = 0  %>
-          <% var totalOptions = 0  %>
-            <% data.some((element, index) => { %>
-              <% var totalOption = 0  %>
-              <div class="basket-item">
-                <div class="basket-img">
-                  <a href="<%= element.slug %>">
-                    <img src="<%= element.image %>" alt="" class="img-fluid">
-                  </a>
-                </div>
-                <div class="basket-title">
-                    <span style="color: #435062!important; font-weight:600"><%= element.title.toUpperCase() %>  </span>
-                    <span style="color: #435062!important; font-weight:600">Renk: <%= element.color %> </span>
-                    <% if (element.prices != NaN || element.options.length != 0) { %>
-                      <% element.options.forEach((el, index) => { %>
-                        <% if (element.prices[index] != 0) { %>
-                          <% totalOption += element.prices[index] %>
-                          <span style="opacity: 0.8; color: #435062;">+ <%= el %> <%= element.prices[index] %>TL </span>                         
-                        <% } %>
-                      <% }) %>
-                    <% } %>
-                    <% if (element.giftContent) { %>
-                      <span style="opacity: 0.8; color: #435062;;">+ <%= element.giftContent %> </span>
-                    <% } %>
-                </div>
-                <div class="basket-price">
-                  <% if (element.oldPrice) { %>
-                   <span style="text-decoration: line-through;  color: rgba(255, 0, 0, 0.444); font-weight: 700; "><%= element.oldPrice%>TL</span>
-                   <% total1 += element.oldPrice * element.count%>
-                   <% } else { %>
-                      <% total1 += element.price * element.count%>
-                  <% } %>
-                  <span style="color: #435062!important; font-weight:600" ><%= element.price%>TL</span>
-                  <% if (totalOption != 0) { %>
-                    <span  style="color: #435062!important; font-weight:600" >+<%= totalOption %>TL</span>
-                    <% totalOptions += element.count ? element.count * totalOption : totalOption %>
-                  <% } %>
-                </div>
+              <div class="prdctDetailsNew">
+                <span style="color: #435062!important; font-weight:600"><%= el.title %> 
+                    <br><span style="color: #435062!important; font-weight:600">Renk: <%= el.color %> </span><br>
                 
+                  <% if (el.options) { %>
+                    <% var ttlOp = 0; %>
+                    <% for( let index = 0; index < el.prices.length; index++ ) { %>
+                      <% if (el.prices[index] == 0) { continue; } %>
+                      <% ttlOp += el.prices[index] %>
+                      <span style="opacity: 0.5; color: #435062!important; font-weight:600; font-size: 14px;" class="size12" >+ <%= el.options[index] %> <%= el.prices[index] %>TL</span><br>
+
+                    <% } %>
+                  <% } %>
+                </span>
+                <span style="opacity: 0.5; color: #435062!important; font-weight:600" >
+                  <%= el.price + ttlOp%>TL  
+                  <% if (el.oldPrice) { %>
+                    <span style="text-decoration: line-through;  color: rgba(255, 0, 0, 0.444); font-weight: 700; "><%= el.oldPrice + ttlOp %>TL</span>
+                  <% } %>
+                </span>
                 <div class="basket-counter">
-                  <button onclick="counter('<%= element.title %>', -1, '<%= element.newId %>')" class="btn btn-light">
+                  <button onclick="counter('<%= el.title %>', -1, '<%= el.newId %>')" class="btn btn-light">
                     <i class="bi-dash"></i>
                   </button>
-                  <span> <%= element.count %> </span>
-                  <button onclick="counter('<%= element.title %>', 1, '<%= element.newId %>')" class="btn btn-light">
+                  <span> <%= el.count %> </span>
+                  <button onclick="counter('<%= el.title %>', 1, '<%= el.newId %>')" class="btn btn-light">
                     <i class="bi-plus"></i>
                   </button>
                 </div>
                 <div class="trash">
-                  <button onclick="counter('<%= element.title %>', '-<%= element.count %>', '<%= element.newId %>')" class="btn btn-light">
+                  <button onclick="counter('<%= el.title %>', '-<%= el.count %>', '<%= el.newId %>')" class="btn btn-light">
                     <i class="bi bi-trash3-fill"></i>
                   </button>
                 </div>
-                
               </div>
-            <% }) %>
+            </div>
+          <% }) %>
         </div>
-        <div class="right-container">
-          <div class="basket-subtract">
-            <% if (total1 != total) { %>
-              <span style="text-decoration: line-through; opacity: 0.5; color: #435062!important; font-weight:600">Toplam Sipariş Ücreti: <%= total1 + totalOptions %>TL</span>          
-            <% } %>
-            <span style="color: #435062!important; font-weight:800; font-size: large;"> Toplam Sipariş Ücreti: <%= total + totalOptions %>TL</span>
-          </div>
-          <div class="not">
-            <textarea class="form-control" placeholder="Satıcıya not" name="not" id="not" cols="15" rows="5"></textarea>
-          </div>
-          <div class="basket-accept">
-            <button class="btn btn--orange">
-              Ödeme Yap
-            </button>
+        <div class="pay-left-container">
+          <div class="form-div">
+            <div class="header-pay"> Sepet Tutarı </div>
+            <div class="totalProducts">
+              <% if (totalDisc) { %>
+                <span style="text-decoration: line-through;  color: rgba(255, 0, 0, 0.444); font-weight: 700; ">Sepet Toplam Ücreti: <%= totalDisc + totalOp%>TL</span>
+              <% } %>
+              <span style="color: #435062!important; font-weight:800; font-size: large;"> Sepet Toplam Ücreti: <%= total + totalOp %>TL</span>
+            </div>
+            <div class="not">
+              <textarea class="form-control" placeholder="Satıcıya not" name="not" id="not" cols="15" rows="5"></textarea>
+            </div>
+            <div class="basket-accept">
+              <a href="/odeme">
+                <button class="btn btn--orange">
+                  Ödeme Yap
+                </button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -128,100 +113,21 @@
         <div class="containerProduct">
           <div class="heading_container heading_center">
             <h2>
-              Önerilenler
+              Benzer Ürünler
             </h2>
           </div>
           <div class="rowProduct">
-            <%- include('utilsEjs/row', { data: imported, end: 4, name: 'Önerilenler' }) %>
+            <%- include('utilsEjs/row', { data: imported, end: imported.length, name: 'önerilenler' }) %>
           </div>
-          <!-- <div class="btn-box">
-            <a href="headset">
-              Tümünü Göster
-            </a>
-          </div> -->
         </div>
       </section>
-      <footer class="footer_section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 col-lg-3 footer-col">
-              <div class="footer_detail">
-                <h4>
-                  Hakkımızda
-                </h4>
-                <p>
-                  Üç senedir akıllı saat ve kulaklık satışımız bulunmaktadır instagram üzerinden bugünden itibaren satın alımları gerçeklerştirmek için artık web sitemiz vardır.
-                </p>
-                <div class="footer_social">
-                  <a href="">
-                    <i class="fa fa-instagram" aria-hidden="true"></i>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-3 footer-col">
-              <div class="footer_contact">
-                <h4>
-                  Reach at..
-                </h4>
-                <div class="contact_link_box">
-                  <a href="">
-                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    <span>
-                      Location
-                    </span>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-phone" aria-hidden="true"></i>
-                    <span>
-                      Call +01 1234567890
-                    </span>
-                  </a>
-                  <a href="">
-                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                    <span>
-                      demo@gmail.com
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-3 footer-col">
-              <div class="footer_contact">
-                <h4>
-                  Subscribe
-                </h4>
-                <form action="#">
-                  <input type="text" placeholder="Enter email" />
-                  <button type="submit">
-                    Subscribe
-                  </button>
-                </form>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-3 footer-col">
-              <div class="map_container">
-                <div class="map">
-                  <div id="googleMap"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="footer-info">
-            <p>
-              &copy; <span id="displayYear"></span> All Rights Reserved By
-              <a href="https://html.design/">Free Html Templates</a>
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
+  </section>
+    <%- include('utilsEjs/footer') %>
     <%- include('utilsEjs/scriptPath') %>
-    <script>
-      function counter(title, count, newId){
+</body>
+<script>
+     function counter(title, count, newId){
         console.log(title)
         fetch('/addBasket', ({
           method: 'POST',
@@ -233,6 +139,5 @@
           window.location.reload();
         });
       }
-    </script>
-</body>
+</script>
 </html>

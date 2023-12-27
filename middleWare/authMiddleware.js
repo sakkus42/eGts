@@ -19,6 +19,7 @@ const authenticateToken = async (req, res, next) => {
 const authCtrl = async (req, res, next) => {
     const token = req.cookies.jwt;
     if (!token){
+        res.locals.isLog = false;
         next();
         return;
     }

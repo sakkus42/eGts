@@ -8,6 +8,7 @@ class User {
         this.name = name;
         this.sirname = sirname;
         this.address = address;
+        this.confirmEmail = 0;
     }
 
     async setPassword(password){
@@ -24,7 +25,8 @@ class User {
                     name,
                     sirname,
                     psw,
-                    adress
+                    address,
+                    confirmEmail
                     )
                     VALUES(
                     '${this.email}',
@@ -32,7 +34,9 @@ class User {
                     '${this.name}',
                     '${this.sirname}',
                     '${this.password}',
-                    '${this.address}');`;
+                    '${this.address}',
+                    '${this.confirmEmail}'
+                    );`;
         const [newUser, _] = await db.execute(sql);
         return (newUser);
     }
@@ -102,6 +106,11 @@ class User {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
         return hash;
+    }
+
+    static delById(id) {
+        const sql = `DELETE FROM user WHERE id = '${id}'`
+        db.execute(sql);
     }
 
 }

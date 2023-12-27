@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { isAdmin, allUser, blocked } = require("../controller/userCtrl");
+const { isAdmin, allUser, blocked, delUser } = require("../controller/userCtrl");
 const { authenticateToken, authCtrl } = require("../middleWare/authMiddleware");
 const { 
     getAllProducts,
@@ -15,6 +15,8 @@ const { upload, singleUpload } = require("../middleWare/multerMiddlware");
 const Product = require("../model/Product");
 const Carrousel  = require("../model/Carrousel");
 const { createCarrousel, deleteCarrousel } = require("../controller/carrouselCtrl");
+const OrderList = require("../model/OrderList");
+const { updateCloseOrder, deleteOrder, orderListstatistic } = require("../controller/orederlistCntrl");
 
 router.use(express.static('views'));
 
@@ -54,6 +56,15 @@ router.post("/uploadImg/:id", authCtrl, isAdmin, async (req, res) => {
 
 router.post("/campaign/:id", authenticateToken, authCtrl, isAdmin, campaignUpdate);
 
+router.get("/statistic", authenticateToken, authCtrl, isAdmin, orderListstatistic);
+router.get("/closeOrder", authenticateToken, authCtrl, isAdmin, async (req, res) => {
+    const [order] = await OrderList.getAllDeactiveOrder();
+    res.render("closeOrder", {order});
+})
+router.get("/order", authenticateToken, authCtrl, isAdmin, async (req, res) => {
+    const [order] = await OrderList.getAllActiveOrder();
+    res.render("order", {order});
+})
 
 router.get("/carrousel", authCtrl, isAdmin, async (req, res) => {
     const [all, _] = await Carrousel.getAll();
@@ -66,20 +77,14 @@ router.get("/updateImg/:id", authCtrl, isAdmin, async (req, res) => {
     
     res.render("productImage", {photo: true, image: product[0].images, id: req.params.id});
 });
-router.get("/search/:title", authenticateToken, authCtrl, isAdmin, async (req, res) => {
-    const [prdct, _] = await Product.findByTitle(req.params.title);
-    if (prdct.length == 0){
-        res.json({ prdct: null })
-        return;
-    }
-    console.log(prdct);
-    res.json({prdct: prdct[0]});
-});
 
+router.put("/cancelOrder", authenticateToken, authCtrl, isAdmin, deleteOrder);
+router.put("/closeOrder", authenticateToken, authCtrl, isAdmin, updateCloseOrder);
 router.put("/import/:id", authenticateToken, authCtrl, isAdmin, addImport);
 router.put("/delCarrousel/:id", authenticateToken, authCtrl, isAdmin, deleteCarrousel);
 router.put("/delImg/:id", authenticateToken, authCtrl, isAdmin, deleteImage);
 router.put("/block/:id", authenticateToken, authCtrl, isAdmin, blocked);
+router.put("/delMember/:id", authenticateToken, authCtrl, isAdmin, delUser);
 router.put("/del/:id", authenticateToken, authCtrl, isAdmin, delProduct);
 
 
@@ -105,7 +110,6 @@ router.get("/campaign/:slug", authenticateToken, authCtrl, isAdmin, async (req, 
 router.get("/products", authenticateToken, authCtrl, isAdmin, getAllProducts)
 
 router.get("/members", authenticateToken, authCtrl, isAdmin, allUser, (req, res) => {
-    console.log(res.locals.users[0]);
     res.render("members", { users: res.locals.users });
 });
 

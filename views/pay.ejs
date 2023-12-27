@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>E-GTS Ödeme</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/pay.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+</head>
+<style>
+  .menuOptions,
+  .searchInput{
+    display: none;
+  }
+  .headerBar {
+    padding: 0px 200px;
+  }
+</style>
+
+<body>
+    <div class="hero_area">
+      <%- include('utilsEjs/headerSection') %>
+      <div class="pay-container">
+        <div class="pay-left-container">
+          <div class="form-div">
+            <div class="header-pay"> Kargo Bilgileri </div>
+            <form action="/deneme" method="post" class="form-pay">
+              <div class="names">
+                <input type="text" name="name" id="name" value="<%= user.length !== 0 ? `${user.name}` : '' %>" placeholder="Ad" required>
+                <input type="text" name="sirname" id="sirname" value="<%= user.length !== 0 ? `${user.sirname}` : '' %>" placeholder="Soyad" required>                
+              </div>
+              <input type="email" name="email" id="email1" onblur="checkEmail()" value="<%= user.length !== 0 ? `${user.email}` : '' %>" placeholder="E-post geri bildirim için" required>
+              <span id="emailErr">Geçerli bir e-posta giriniz</span>
+              <input type="text" name="address" id="addres"  placeholder="Adres" required>
+              <input type="text" name="address" id="addres"  placeholder="Apartman, daire vb." required>
+              <input type="text" name="note" id="note" value="<%= note %>" hidden>
+              <div class="names">
+                <input type="text" name="address" id="addres"  placeholder="Posta kodu">
+                <input type="text" name="address" id="addres"  placeholder="Şehir" required>
+              </div>
+              <input type="tel" name="phone" id="phone" onblur="checkPhone()" value="<%= user.length !== 0 ? `${user.phone}` : '' %>" placeholder="Telefon" required>
+              <span id="phoenErr">Geçerli bir telefon numarası giriniz</span>
+              <button type="submit" class="btn btn--orange">Şimdi Öde</button>
+            </form>
+          </div>
+        </div>
+        <div class="pay-right-container">
+          <div class="header-pay"> Sepetteki Ürünler </div>
+          <% data.some(el => { %>
+            <div class="product">
+              <div class="imgScale">
+                <img src="<%= el.image %>" >
+              </div>
+              <div class="prdctDetails">
+                <span style="color: #435062!important; font-weight:600"> <%= el.count %> adet <%= el.title %> </span>
+                <span style="color: #435062!important; font-weight:600">Renk: <%= el.color %> </span>
+                <span style="opacity: 0.5; color: #435062!important; font-weight:600" >
+                  <%= el.price * el.count%>TL  
+                  <% if (el.oldPrice) { %>
+                    <span style="text-decoration: line-through;  color: rgba(255, 0, 0, 0.444); font-weight: 700; "><%= el.oldPrice * el.count %>TL</span> 
+                  <% } %>
+                </span>
+                <% if (el.options) { %>
+                  <% var ttlOp = 0; %>
+                  <% for( let index = 0; index < el.prices.length; index++ ) { ttlOp += el.prices[index] } %>
+                  <% if (ttlOp != 0) { %>
+                    <span style="opacity: 0.8; color: #435062;">Ekstra ürünler +<%= ttlOp * el.count %>TL </span>
+                  <% } %>
+                <% } %>
+              </div>
+            </div>
+          <% }) %>
+          <div class="totalProducts">
+            <% if (totalDisc) { %>
+              <span style="text-decoration: line-through;  color: rgba(255, 0, 0, 0.444); font-weight: 700; ">Sepet Toplam Ücreti: <%= totalDisc + totalOp%>TL</span>
+            <% } %>
+            <span style="color: #435062!important; font-weight:800; font-size: large;"> Sepet Toplam Ücreti: <%= total + totalOp %>TL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('utilsEjs/footer') %>
+    <%- include('utilsEjs/scriptPath') %>
+</body>
+</html>

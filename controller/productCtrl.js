@@ -12,7 +12,6 @@ const createProduct = async (req, res, next) => {
     const product = new Product(req.body);
     await product.save();
     const [saveprdct, _1] = await Product.findByTitle(req.body.title);
-    console.log("burdayım")
     res.render("productImage", {photo: true, image: null, id: saveprdct[0].id});
 }
 

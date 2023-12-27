@@ -1,13 +1,8 @@
-
 const cntrlOptions = (src, dest) => {
-    if (src && src != 'undefined' && dest && dest != 'undefined'){
-        if (src.length <= dest.length){
-            return dest.filter(e => !src.includes(e))
-        }else if (src.length > dest.length){
-            return src.filter(e => !dest.includes(e))
-        }
+    if (src.length <= dest.length){
+        return dest.filter(e => !src.includes(e))
     }
-    return [];
+    return src.filter(e => !dest.includes(e))
 };
 
 module.exports = {

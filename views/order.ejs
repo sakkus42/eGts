@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>E-GTS siparişler</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="../text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="../css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../css/responsive.css" rel="stylesheet" />
+</head>
+
+<style>
+  #changeWidget {
+    width: 100%;
+    text-align: end;
+    margin-bottom: 10px;
+  }
+  #tableTop {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+  }
+  #tableTop form{
+    display: flex;
+  }
+
+  .userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .userInfo div {
+    border: #343a406b 1px solid;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+  }
+  .titleInfo {
+    font-weight: 600;
+    font-size: 13px;
+    width: 100%;
+  }
+
+  .infoContent {
+    font-weight: 450;
+    font-size: 15.5px;
+    color: #343a40;
+    height: auto;
+    width: 100%;
+  }
+
+
+  .orderPrdcts {
+    display: grid; grid-template-rows: 1fr;
+  }
+
+  .orderPrdcts .prdct{
+    display: flex; flex-direction: row;
+    width: 100%;
+    border: #6bae1955 1px solid;
+    border-radius: 10px;
+    padding: 10px;
+    height: auto;
+    margin-bottom: 5px;
+  }
+
+  .orderPrdcts .prdct .image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .orderPrdcts .prdct .image img{
+    height: 100px;
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .changeRow{
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .changeRow  div{
+    border: none;
+  }
+
+</style>
+
+
+<body>
+
+  <div class="admin__main-container">
+    <%- include('./utilsEjs/admin_menu') %>
+    <div class="option-scale">
+      <div class="products">
+        <div id="tableTop">
+          <input type="search" id="search" onkeyup="handleKeyPress(event)">
+          <button type="submit" onclick="searchTable()" class="btn" id="searchProduct" style="background-color: #343a40; color: white;">ara</button>
+        </div>
+        <table id="productTable" class="table table-hover">
+          <thead class="thead-dark" 
+            <tr>
+              <th scope="col">Sipariş Bilgileri</th>
+              <th scope="col">ürün</th>
+              <th scope="col"> Sipariş Zamanı </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% order.forEach((el) => { %>
+              <tr>
+                <td class="id" style="display: none;"><%= el.id %></td>
+                <td>
+                  <div class="userInfo">
+                    <div>
+                      <span class="titleInfo">Ad Soyad</span>
+                      <span class="infoContent"><%= el.name %> <%= el.sirname %></span>
+                    </div>
+                    <div>
+                      <span class="titleInfo">Telefon</span>
+                      <span class="infoContent"><%= el.phone %></span>
+                    </div>
+                    <div>
+                      <span class="titleInfo">Mail</span>
+                      <span class="infoContent"><%= el.email %></span>
+                    </div>
+                    <div>
+                      <span class="titleInfo">Adres</span>
+                      <span class="infoContent"><%= el.address %></span>
+                    </div>
+                    <div>
+                      <span class="titleInfo">Müşteriden Not</span>
+                      <span class="infoContent"><%= el.note ? el.note : 'Müşteri notu yok' %></span>
+                    </div>
+                    <% if (el.userId) { %>
+                      <div>
+                        <span class="titleInfo">Siparişi veren kullanıcı</span>
+                        <span class="infoContent"><%= el.userId %></span>
+                      </div>
+                    <% } %>
+                  </div>
+                </td>
+                <td>
+                  <div class="orderPrdcts">
+                    <% for( let i = 0; i < el.productData.length; i++ ) { %>
+                    
+                      <div class="prdct">
+                        <div class="image">
+                          <a href="/<%= el.productData[i].slug %>">
+                            <img src="<%= el.productData[i].image %>" alt="">
+                          </a>
+                        </div>
+                        <div class="userInfo changeRow">
+                          <div>
+                            <span class="titleInfo">Ürün</span>
+                            <span class="infoContent"><%= el.productData[i].count %> adet <%= el.productData[i].title %></span>
+                          </div>
+                          <div>
+                            <span class="titleInfo">Renk</span>
+                            <span class="infoContent"><%= el.productData[i].color %></span>
+                          </div>
+                          <div>
+                            <span class="titleInfo">Hediye</span>
+                            <span class="infoContent"><%= el.productData[i].giftContent %></span>
+                          </div>
+                          
+                          <div>
+                            <span class="titleInfo">Ek Ürünler</span>
+                            <% let totalOp = 0; %>
+                            <% for( let index = 0; index < el.productData[i].options.length; index++ ) { %>
+                              <% if (el.productData[i].prices[index]) { %>
+                                <span class="infoContent"> <%= el.productData[i].options[index] %></span>
+                                <% totalOp += el.productData[i].prices[index] %>
+                              <% } %>
+                              <% } %>
+                          </div>
+                        
+                          <div>
+                            <span class="titleInfo">Ürün fiyatı</span>
+                            <span class="infoContent"><%= el.productData[i].price + totalOp %> TL </span>
+                          </div>
+                          <div>
+                            <span class="titleInfo">Toplam fiyatı</span>
+                            <span class="infoContent"><%= (el.productData[i].price + totalOp) * el.productData[i].count %> TL </span>
+                          </div>
+                          <div>
+                            <span class="titleInfo">Adet</span>
+                            <span class="infoContent"><%= el.productData[i].count %> </span>
+                          </div>                        
+                        </div>
+                      </div>
+                    
+                    <% } %>
+                    <div class="userInfo">
+                      <span class="titleInfo">Genel Toplam</span>
+                      <span class="infoContent" style="font-size: 24px; font-weight: 700;"><%= el.totalPrice %> TL</span>
+                    </div>
+                    <div class="userInfo">
+                      <input type="text" name="cargoNumber" class="cargoNumber" onkeyup="handleKeyPressOrderClose(event, `<%= el.id %>`)" placeholder="Takip Numarası">
+                      <button class="btn btn-dark" onclick="closeOrder(event, '<%= el.id %>')">Siparişi Kapat</button>
+                      <button class="btn btn-danger" onclick="cancelOrder(event, '<%= el.id %>')">siparişi onaylama</button>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="userInfo">
+                    <span class="titleInfo">Sipariş Tarihi</span>
+                    <% const orderDate = new Date(el.orderHistory);
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    const turkishDate = orderDate.toLocaleDateString('tr-TR', options);                    
+                    %>
+                    <span class="infoContent" id="historyOrder" style="font-weight: 600;">
+                      <%= turkishDate %>
+                    </span>
+                  </div>
+                </td>
+              </tr>
+              <%}); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+    <%- include('utilsEjs/scriptPath') %>
+  <script>
+  
+  function closeOrder(event, id) {
+    const value = $(event.target).closest('tr').find('.cargoNumber').val();
+    console.log(value);
+    const body = {
+        cargoNumber: value,
+        id: Number(id)
+    }
+    const res = fetch('/admin/closeOrder', {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+    res.then(response => {
+      console.log("Fetch işlemi tamamlandı!", response);
+      $(event.target).closest('tr').remove();
+    }).catch(error => {
+      // Hata durumunda buraya gelir
+      console.error("Bir hata oluştu!", error);
+    });
+  }
+  function handleKeyPressOrderClose(event, id){ if (event.key === 'Enter') {closeOrder(event, id);} }
+
+  function cancelOrder(event, id) {
+    const value = $(event.target).closest('tr').find('.cargoNumber').val();
+    console.log(value);
+    const body = {
+        id: Number(id)
+    }
+    const res = fetch('/admin/cancelOrder', {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+    res.then(response => {
+      $(event.target).closest('tr').remove();
+    }).catch(error => {
+      console.error("Bir hata oluştu!", error);
+    });
+  }
+
+
+
+  </script>
+</body>
+</html>

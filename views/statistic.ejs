@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+
+  <title>E-GTS Siparişlerr</title>
+
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="../text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="../css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../css/responsive.css" rel="stylesheet" />
+</head>
+
+<style>
+
+ .summary-container{
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 20px;
+ }
+
+ .summary-container .totalOrder{
+  display: flex; flex-direction: column;
+  background-color: var(--pale-orange);
+  border-radius: 10px;
+  gap: 20px;
+  padding: 20px;
+ }
+
+ .summary-container .totalOrder .title {
+  font-size: 24px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--orange);
+ }
+
+ .summary-container .totalOrder > div {
+  display: flex; flex-direction: column;
+ }
+
+ .summary-container .totalOrder > div > span {
+  font-weight: 550;
+  line-height: 20px;
+  font-size: 18px;
+  color: #251c1c;
+ }
+
+ .chart {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  width: 400px;
+  height: 200px;
+  border: 1px solid #ccc;
+}
+
+.bar {
+  width: 20px;
+  background-color: blue; /* Sütun renkleri burada ayarlanabilir */
+}
+
+
+.graph {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 20px;
+}
+</style>
+
+
+<body>
+
+  <div class="admin__main-container">
+    <%- include('./utilsEjs/admin_menu') %>
+    <div class="statistic-container">
+      <div class="summary-container">
+        <div class="totalOrder">
+          <div class="title">
+            toplam satış
+          </div>
+          <div>
+            <label>Genel Satış</label>
+            <span> <%= turnoverYear %>TL </span>
+          </div>
+          <div>
+            <label>Bu Ay</label>
+            <span> <%= turnoverMonth %>TL </span>
+          </div>
+          <div>
+            <label>Bu Hafta</label>
+            <span> <%= turnoverWeek %>TL </span>
+          </div>
+          <div>
+            <label>Günlük</label>
+            <span> <%= turnoverDay %>TL </span>
+          </div>
+        </div>
+        <div class="totalOrder">
+          <div class="title">
+            Satılan Ürün Adeti
+          </div>
+          <div>
+            <label>Genel Satıl</label>
+            <% let quantityAll = 0 %>
+            <% prdctAll.forEach(el => { %>
+              <% if (el.count == 1) { %>
+                <% quantityAll += 1 %>
+              <% } else { %>
+                <% quantityAll += el.count %>  
+              <% } %>
+            <% }) %>
+            <span> <%= quantityAll %> adet ürün satıldı </span>
+          </div>
+          <div>
+            <label>Aylık Satış</label>
+            <% let quantityMonth = 0 %>
+            <% prdctMonth.forEach(el => { %>
+              <% if (el.count == 1) { %>
+                <% quantityMonth += 1 %>
+              <% } else { %>
+                <% quantityMonth += el.count %>  
+              <% } %>
+            <% }) %>
+            <span> <%= quantityMonth %> adet ürün satıldı </span>
+          </div>
+          <div>
+            <label>Haftalık Satış</label>
+            <% let quantityWeek = 0 %>
+            <% prdctWeek.forEach(el => { %>
+              <% if (el.count == 1) { %>
+                <% quantityWeek += 1 %>
+              <% } else { %>
+                <% quantityWeek += el.count %>  
+              <% } %>
+            <% }) %>
+            <span> <%= quantityWeek %> adet ürün satıldı </span>
+          </div>
+          <div>
+            <label>Günlük Satış</label>
+            <% let quantityDay = 0 %>
+            <% prdctDay.forEach(el => { %>
+              <% if (el.count == 1) { %>
+                <% quantityDay += 1 %>
+              <% } else { %>
+                <% quantityDay += el.count %>  
+              <% } %>
+            <% }) %>
+            <span> <%= quantityDay %> adet ürün satıldı </span>
+          </div>
+        </div>
+        <div class="totalOrder">
+          <div class="title">
+            Üyeler
+          </div>
+          <div>
+            <label>Toplam Üye Sayısı</label>
+            <span> <%= members.length - 1 %> üyeniz var </span>
+          </div>
+        </div>
+      </div>
+      <div class="graph">
+        <div>
+          <canvas id="day"></canvas>
+        </div>
+        <div>
+          <canvas id="week"></canvas>
+        </div>
+        <div>
+          <canvas id="month"></canvas>
+        </div>
+      </div>
+      <div class="summary-container">
+        <div class="totalOrder">
+          <div>
+            <div class="title"> Bugün Satan Ürünler </div>
+            <% for( let index = 0; index < prdctDay.length; index++ ) { %>
+                <span> <%= prdctDay[index].title %>: 
+                  <span style="opacity: 0.6;"> <%= prdctDay[index].count %> adet  </span>
+                  <a href="/<%= prdctDay[index].slug %>"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="var(--orange)" class="bi bi-binoculars" viewBox="0 0 16 16">
+                      <path d="M3 2.5A1.5 1.5 0 0 1 4.5 1h1A1.5 1.5 0 0 1 7 2.5V5h2V2.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5v2.382a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V14.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 14.5v-3a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5v3A1.5 1.5 0 0 1 5.5 16h-3A1.5 1.5 0 0 1 1 14.5V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882zM4.5 2a.5.5 0 0 0-.5.5V3h2v-.5a.5.5 0 0 0-.5-.5zM6 4H4v.882a1.5 1.5 0 0 1-.83 1.342l-.894.447A.5.5 0 0 0 2 7.118V13h4v-1.293l-.854-.853A.5.5 0 0 1 5 10.5v-1A1.5 1.5 0 0 1 6.5 8h3A1.5 1.5 0 0 1 11 9.5v1a.5.5 0 0 1-.146.354l-.854.853V13h4V7.118a.5.5 0 0 0-.276-.447l-.895-.447A1.5 1.5 0 0 1 12 4.882V4h-2v1.5a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5zm4-1h2v-.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm4 11h-4v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zm-8 0H2v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5z"/>
+                    </svg>
+                  </a>
+                </span>
+            <% } %>
+          </div>
+        </div>
+        <div class="totalOrder">
+          <div>
+            <div class="title"> Bu hafta Satan Ürünler </div>
+            <% for( let index = 0; index < prdctWeek.length; index++ ) { %>
+                <span> <%= prdctWeek[index].title %>: 
+                  <span style="opacity: 0.6;"> <%= prdctWeek[index].count %> adet  </span>
+                  <a href="/<%= prdctWeek[index].slug %>"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="var(--orange)" class="bi bi-binoculars" viewBox="0 0 16 16">
+                      <path d="M3 2.5A1.5 1.5 0 0 1 4.5 1h1A1.5 1.5 0 0 1 7 2.5V5h2V2.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5v2.382a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V14.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 14.5v-3a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5v3A1.5 1.5 0 0 1 5.5 16h-3A1.5 1.5 0 0 1 1 14.5V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882zM4.5 2a.5.5 0 0 0-.5.5V3h2v-.5a.5.5 0 0 0-.5-.5zM6 4H4v.882a1.5 1.5 0 0 1-.83 1.342l-.894.447A.5.5 0 0 0 2 7.118V13h4v-1.293l-.854-.853A.5.5 0 0 1 5 10.5v-1A1.5 1.5 0 0 1 6.5 8h3A1.5 1.5 0 0 1 11 9.5v1a.5.5 0 0 1-.146.354l-.854.853V13h4V7.118a.5.5 0 0 0-.276-.447l-.895-.447A1.5 1.5 0 0 1 12 4.882V4h-2v1.5a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5zm4-1h2v-.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm4 11h-4v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zm-8 0H2v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5z"/>
+                    </svg>
+                  </a>
+                </span>
+            <% } %>
+          </div>
+        </div>
+        <div class="totalOrder">
+          <div>
+            <div class="title"> En Çok Satan Ürünler </div>
+            <% for( let index = 0; index < 5 &&  index < prdctAll.length; index++ ) { %>
+                <span> <%= prdctAll[index].title %>: 
+                  <span style="opacity: 0.6;"> <%= prdctAll[index].count %> adet  </span>
+                  <a href="/<%= prdctAll[index].slug %>"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="var(--orange)" class="bi bi-binoculars" viewBox="0 0 16 16">
+                      <path d="M3 2.5A1.5 1.5 0 0 1 4.5 1h1A1.5 1.5 0 0 1 7 2.5V5h2V2.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5v2.382a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V14.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 14.5v-3a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5v3A1.5 1.5 0 0 1 5.5 16h-3A1.5 1.5 0 0 1 1 14.5V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882zM4.5 2a.5.5 0 0 0-.5.5V3h2v-.5a.5.5 0 0 0-.5-.5zM6 4H4v.882a1.5 1.5 0 0 1-.83 1.342l-.894.447A.5.5 0 0 0 2 7.118V13h4v-1.293l-.854-.853A.5.5 0 0 1 5 10.5v-1A1.5 1.5 0 0 1 6.5 8h3A1.5 1.5 0 0 1 11 9.5v1a.5.5 0 0 1-.146.354l-.854.853V13h4V7.118a.5.5 0 0 0-.276-.447l-.895-.447A1.5 1.5 0 0 1 12 4.882V4h-2v1.5a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5zm4-1h2v-.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm4 11h-4v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zm-8 0H2v.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5z"/>
+                    </svg>
+                  </a>
+                </span>
+            <% } %>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </div>
+</body>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>s
+
+<script>
+  const day = <%- JSON.stringify(dayGraph) %>;
+  const week = <%- JSON.stringify(weekGraph) %>;
+  const month = <%- JSON.stringify(monthGraph) %>;
+  
+  const dayName  = [
+    {eng: 'Sunday', tr: 'Pazar'},
+    {eng: 'Monday', tr: 'Pazartesi'},
+    {eng: 'Tuesday', tr: 'Salı'},
+    {eng: 'Wednesday', tr: 'Çarşamba'},
+    {eng: 'Thursday', tr: 'Perşembe'},
+    {eng: 'Friday', tr: 'Cuma'},
+    {eng: 'Saturday', tr: 'Cumartesi'}
+  ];
+
+  new Chart(
+      document.getElementById('day'), 
+      crtCfg(
+      [{
+          label: 'Günlük Satış',
+          data : dayName.map((el, index) => {
+            const found = day.find(d => d.day === el.eng);
+            return { x: el.tr, y: found ? found.total : 0 };
+          }),
+          borderWidth: 2
+        },
+      ]
+      )
+  );
+
+
+  new Chart(
+    document.getElementById('week'),
+    crtCfg(
+      [ 
+        {
+          label:'Haftalık Satış',
+          data: week.map(el => {
+            return { x: cnvrtDate(el.week_start_date), y: el.total }
+          }),
+          borderWidth: 3,
+          borderColor: 'red',
+        }
+      ]
+    )
+  )
+
+  const monthName = 
+  [
+      'Ocak',
+      'Şubat',
+      'Mart',
+      'Nisan',
+      'Mayıs',
+      'Haziran',
+      'Temmuz',
+      'Ağustos',
+      'Eylül',
+      'Ekim',
+      'Kasım',
+      'Aralık'
+  ]
+      
+  new Chart(
+    document.getElementById('month'),
+    crtCfg(
+      [{
+            label: 'Aylık Satış',
+            data : monthName.map((el, index) => {
+              const found = month.find(d => d.month - 1 === index);
+              return { x: el, y: found ? found.total : 0 };
+          }),
+            borderWidth: 5,
+            borderColor: 'rgb(75, 192, 192)',
+      }]
+    )
+  )
+
+  
+  
+
+  function cnvrtDate(date){
+    const orderDate = new Date(date);
+
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const turkishDate = orderDate.toLocaleDateString('tr-TR', options);                    
+    return turkishDate;
+  }
+                    
+  function crtCfg(data){
+    const cfg = {
+      type: 'line',
+      data: {
+      },
+    }
+    cfg.data.datasets = data
+    return cfg
+  } 
+</script>
+</html>

@@ -13,6 +13,35 @@ $(document).on("click", function(event){
     }
 });
 
+function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+        searchTable();
+    }
+}
+
+
+function searchTable() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("productTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        var userInfo = tr[i].querySelector('.infoContent');
+        if (userInfo) {
+            txtValue = userInfo.textContent || userInfo.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
+
+
 function alphaSort(flag){
     var myDivs = $(".rowProduct");
     console.log($('#sortText').text())

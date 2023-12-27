@@ -14,50 +14,6 @@ function searchOpen(){
     }
 }
 
-let flag = false;
-window.onload = function() {
-
-    // document.getElementById('search').addEventListener('click', () => {
-    //     flag = flag ? false : true;
-    //     searchOpen();
-    // })
-    
-    // document.getElementsByClassName('navbar-toggler')[0].addEventListener('click', () => {
-    //     flag = flag ? false : true;
-        
-    // })
-
-    var lastScrollTop = 0;
-    window.addEventListener('scroll', function() {
-    if (flag == true){ return;}
-    var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-    if (currentScroll > lastScrollTop) {
-        // Aşağı kaydırma
-        var header = document.querySelector('header');
-        header.classList.remove('sticky');
-    } else {
-        // Yukarı kaydırma
-        var header = document.querySelector('header');
-        header.classList.add('sticky');
-      }
-  
-      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-    });
-  };
-  
-
-
-// $(document).ready(function() {
- 
-//     $('.color-choose input').on('click', function() {
-//         var headphonesColor = $(this).attr('data-image');
-   
-//         $('.active').removeClass('active');
-//         $('.left-column img[data-image = ' + headphonesColor + ']').addClass('active');
-//         $(this).addClass('active');
-//     });
-   
-// });
 
 var btn = document.querySelectorAll(".clickBtn");
 
@@ -101,13 +57,3 @@ $(".client_owl-carousel").owlCarousel({
         }
     }
 });
-
-/** google_map js **/
-
-function myMap() {
-    var mapProp = {
-        center: new google.maps.LatLng(40.712775, -74.005973),
-        zoom: 18,
-    };
-    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-}
