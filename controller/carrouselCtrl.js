@@ -14,7 +14,7 @@ const createCarrousel = async (req, res) =>  {
             res.status(400).end();
         }
         const file = req.file.filename
-        const carrousel = new Carrousel({title: req.body.title, content: req.body.content, file :file})
+        const carrousel = new Carrousel({title: req.body.title, content: req.body.content, href: req.body.link, file :file})
         await carrousel.save();
     });
     res.redirect('/admin/carrousel')

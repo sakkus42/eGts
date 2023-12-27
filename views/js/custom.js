@@ -1,8 +1,3 @@
-// to get current year
-
-// $('#search').addEventListener('click', () => {
-// })
-
 function searchOpen(){
     console.log(document.getElementsByClassName('searchInput')[0].style.display);
     var header = document.querySelector('header');
@@ -30,11 +25,6 @@ btn.forEach(el => el.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }));
 
-
-
-
-
-  
 // client section owl carousel
 $(".client_owl-carousel").owlCarousel({
     loop: true,
@@ -57,3 +47,31 @@ $(".client_owl-carousel").owlCarousel({
         }
     }
 });
+
+
+// Header elementini seçme
+const header = document.querySelector('.headerBar');
+
+// Header elementinin orijinal pozisyonunu ve yüksekliğini alın
+const originalOffset = header.offsetTop;
+const headerHeight = header.offsetHeight;
+let lastScroll = 0;
+
+// Sayfa kaydırıldığında çalışacak olan fonksiyon
+function handleScroll() {
+  const scrollPosition = window.scrollY || window.pageYOffset;
+
+  if (scrollPosition > originalOffset && scrollPosition > lastScroll) {
+      header.classList.remove('sticky');
+      
+  } else {
+      header.classList.add('sticky');
+    
+  }
+
+  lastScroll = scrollPosition <= 0 ? 0 : scrollPosition; // Sayfanın en üstünde ise sıfırla
+}
+
+// Sayfa kaydırıldığında handleScroll fonksiyonunu çalıştır
+window.addEventListener('scroll', handleScroll);
+

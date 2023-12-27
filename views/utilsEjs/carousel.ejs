@@ -3,23 +3,22 @@
         <div class="container-fluid ">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="detail-box carrouseldetail">
-                        <h1 style="text-transform: capitalize;">
-                            <%= element.title %>
-                        </h1>
-                        <p>
-                            <%= element.content %>
-                        </p>
-                        <!-- <div class="btn-box">
-                            <a href="" class="btn1">
-                                iletişim
-                            </a>
-                        </div> -->
-                    </div>
+                    <a style="text-decoration: none; color: black;" href="<%= element.href %>">
+                        <div class="detail-box carrouseldetail">
+                            <h1 style="text-transform: capitalize;">
+                                <%= element.title %>
+                            </h1>
+                            <p>
+                                <%= element.content %>
+                            </p>
+                        </div>
+                    </a>
                 </div>
                 <div class="col-md-6">
                     <div class="img-box" >
-                        <img  class="" src="./images/product/<%= element.images %>" alt="">
+                        <a style="text-decoration: none; color: black;" href="<%= element.href %>">
+                            <img  class="" src="./images/product/<%= element.images %>" alt="">
+                        </a>
                     </div>
                 </div>
             </div>

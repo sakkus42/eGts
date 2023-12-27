@@ -6,18 +6,21 @@ class Carrousel {
         this.title = body.title;
         this.content = body.content;
         this.image = JSON.stringify(body.file);
+        this.href = body.href;
     }
 
     async save(){
         const sql = `INSERT INTO carrousel(
             title,
             content,
-            images
+            images,
+            href
             )
             VALUES(
                 '${this.title}',
                 "${this.content}",
-                '${this.image}'
+                '${this.image}',
+                '${this.href}'
             )
             `;
         return db.execute(sql);

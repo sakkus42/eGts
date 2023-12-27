@@ -41,7 +41,9 @@
       <div class="pay-container">  
         <div class="pay-right-container">
           <div class="header-pay"> Sepetteki Ürünler </div>
-          
+          <% if (!total) { %>
+            <span style="color: #435062!important; font-weight:600">Sepetinizde Herhangi Bir Ürün Yoktur</span>
+          <% } %>
           <% data.some(el => { %>
             <div class="productNew">
               <div class="imgScaleNew">
@@ -88,25 +90,27 @@
           <% }) %>
         </div>
         <div class="pay-left-container">
-          <div class="form-div">
-            <div class="header-pay"> Sepet Tutarı </div>
-            <div class="totalProducts">
-              <% if (totalDisc) { %>
-                <span style="text-decoration: line-through;  color: rgba(255, 0, 0, 0.444); font-weight: 700; ">Sepet Toplam Ücreti: <%= totalDisc + totalOp%>TL</span>
-              <% } %>
-              <span style="color: #435062!important; font-weight:800; font-size: large;"> Sepet Toplam Ücreti: <%= total + totalOp %>TL</span>
+          <% if (total) { %>
+            <div class="form-div">
+              <div class="header-pay"> Sepet Tutarı </div>
+              <div class="totalProducts">
+                <% if (totalDisc) { %>
+                  <span style="text-decoration: line-through;  color: rgba(255, 0, 0, 0.444); font-weight: 700; ">Sepet Toplam Ücreti: <%= totalDisc + totalOp%>TL</span>
+                <% } %>
+                <span style="color: #435062!important; font-weight:800; font-size: large;"> Sepet Toplam Ücreti: <%= total + totalOp %>TL</span>
+              </div>
+              <div class="not">
+                <textarea class="form-control" placeholder="Satıcıya not" name="not" id="not" cols="15" rows="5"></textarea>
+              </div>
+              <div class="basket-accept">
+                <a href="/odeme">
+                  <button class="btn btn--orange">
+                    Ödeme Yap
+                  </button>
+                </a>
+              </div>
             </div>
-            <div class="not">
-              <textarea class="form-control" placeholder="Satıcıya not" name="not" id="not" cols="15" rows="5"></textarea>
-            </div>
-            <div class="basket-accept">
-              <a href="/odeme">
-                <button class="btn btn--orange">
-                  Ödeme Yap
-                </button>
-              </a>
-            </div>
-          </div>
+          <% } %>
         </div>
       </div>
       <section class="shop_section layout_padding">

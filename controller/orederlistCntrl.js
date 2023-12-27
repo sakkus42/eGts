@@ -100,7 +100,58 @@ const orderSendMail = async (req, res) => {
                 }
             });
           } 
-    });    
+    });
+
+    const contentTitle = 'Siparişiniz Var';
+    const content = 'Yeni Bir Sipariş Geldi';
+        var mailOptions = {
+            from: process.env.MAIL,
+            to : process.env.MAIL,
+            subject: 'Siparişiniz Var',
+            generateTextFromHtml : true,
+            html: `<!DOCTYPE html>
+            <body>
+                <div>
+                    <div style="
+                        display:grid; justify-items: ce;">
+                        <!-- <img src="./images/logo.png" alt="logo" style=" -->
+                        <img src="cid:logo" alt="logo" style="
+                        height: 200px;
+                        width: 200px;
+                        object-fit: fill;
+                        object-position: center center;">
+                        <span style="
+                        font-size: large;
+                        font-weight: 700;
+                        text-transform: capitalize;
+                        color: rgb(114,115,117);">
+                        ${contentTitle}
+                        </span>
+                        <span style="
+                        font-size: large;
+                        font-weight: 400;
+                        color: rgb(114,115,117);">
+                            ${content}
+                        </span>
+                    </div>    
+                </div>
+            </body>
+            </html>`,
+            attachments: [{
+                filename: 'logo.png',
+                path: __dirname + '/../views/images/logo.png',
+                cid: 'logo'
+            }],
+        };
+    
+        transporter.sendMail(mailOptions, function(error, response){
+            if(error) {
+                console.log(error);
+            } else {
+                res.redirect('/odeme-onay');
+            }
+        });
+
 }
 
 const cargoNumberSendMail = async (req, res, email) => {
