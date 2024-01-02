@@ -80,11 +80,9 @@ class OrderList {
         const updateValues = [];
         for (const key in updatedData) {
             if (Object.hasOwnProperty.call(updatedData, key)){
-                console.log(Object.hasOwnProperty.call(updatedData, key));
                 updateValues.push(`${key} = '${updatedData[key]}'`);
             }
         }
-        console.log(updateValues);
         
         updateQuery += updateValues.join(', '); 
         updateQuery += ` WHERE id = ${id};`;

@@ -124,7 +124,6 @@
 <script>
   $('#carrouselTable').on('click', 'button.btn.btn-warning', async function() {
     var prdctId = $(this).closest('tr').find('td:first').text(); 
-    console.log(prdctId);
     const res = await fetch(`/admin/delCarrousel/${prdctId}`, {
         method: "PUT"
     });

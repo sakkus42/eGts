@@ -247,7 +247,7 @@
   
   function closeOrder(event, id) {
     const value = $(event.target).closest('tr').find('.cargoNumber').val();
-    console.log(value);
+
     const body = {
         cargoNumber: value,
         id: Number(id)
@@ -260,7 +260,6 @@
       body: JSON.stringify(body)
     });
     res.then(response => {
-      console.log("Fetch işlemi tamamlandı!", response);
       $(event.target).closest('tr').remove();
     }).catch(error => {
       // Hata durumunda buraya gelir
@@ -271,7 +270,6 @@
 
   function cancelOrder(event, id) {
     const value = $(event.target).closest('tr').find('.cargoNumber').val();
-    console.log(value);
     const body = {
         id: Number(id)
     }

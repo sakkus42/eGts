@@ -22,9 +22,11 @@ router.post("/addBasket", (req, res) => {
     }
     const basket = req.session.basket;
     
-    if (typeof count !== 'undefined' && typeof count !== 'number') { console.log(count); count = Number(count); }
+    if (typeof count !== 'undefined' && typeof count !== 'number') { 
+        count = Number(count); 
+    }
+
     let found = false;
-    console.log(newId)
     for (let i = 0; i < basket.length; i++){
 
         if (basket[i].title != title){
@@ -64,11 +66,11 @@ router.post("/addBasket", (req, res) => {
 
 router.get("/basket", authCtrl, async (req, res) => {
     const basket = req.session.basket;
-    const total = basket.reduce((total, item) => {
+    const totalOrder = basket.reduce((total, item) => {
         return total + (item.price * item.count);
     }, 0);
     const totalDisc = basket.reduce((total, item) => {
-        return total + (item.oldPrice * item.count);
+        return total += item.oldPrice != 0 ? item.oldPrice * item.count : item.price * item.count;
     }, 0);
     const totalOp = basket.reduce((total, item) => {
         return total + item.prices.reduce((total, item) => { return total + item }, 0) * item.count;
@@ -76,7 +78,7 @@ router.get("/basket", authCtrl, async (req, res) => {
     const [imported] = await Product.getAllImportProduct();
     res.render("basket-shop", { 
         data: basket,
-        total: total,
+        total: totalOrder,
         imported,
         totalDisc,
         totalOp,
@@ -90,6 +92,11 @@ router.get("/basket", authCtrl, async (req, res) => {
 router.post("/deneme", authCtrl, creatOrder);
 
 router.post("/search", authCtrl, searchProduct);
+
+router.get("/kordon", authCtrl, async (req, res) => {
+    const [accessuar] = await Product.getAllProductByCategoryIsQuantity("kordon");
+    res.render("kordon",  {accessuar: accessuar.reverse(), isLog: res.locals.isLog});
+});
 router.get("/aksesuar", authCtrl, async (req, res) => {
     const [accessuar] = await Product.getAllProductByCategoryIsQuantity("aksesuar");
     res.render("accessuar",  {accessuar: accessuar.reverse(), isLog: res.locals.isLog});
@@ -102,7 +109,6 @@ router.get("/kulaklik", authCtrl, async (req, res) => {
 
 router.get("/akilli-saat", authCtrl, async (req, res) => {
     const [products, _] = await Product.getAllProductByCategoryIsQuantity("akıllı saat");
-    console.log(products);
     res.render("watches",  {products: products.reverse()});
 });
 
@@ -155,9 +161,7 @@ router.get("/:slug", authCtrl, async (req, res) => {
         let slug = products.map(el => el.slug)
         slug.push(product[0].slug);
         const [pr] = await Product.getAllImportAndCategoryProduct(product[0].category, 0, slug);
-        console.log(pr);
         for (let i = 0; products.length < 4 && i < pr.length; i++){
-            console.log(slug)
             products.push(pr[i]);
         }
     };

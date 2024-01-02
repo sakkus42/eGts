@@ -121,7 +121,7 @@
     <%- include('utilsEjs/scriptPath') %>
   <script>
   $('#productTable').on('click', 'button.btn.btn-warning', async function() {
-    console.log("burdayız")
+    
     var prdctId = $(this).closest('tr').find('td:first').text(); 
     const res = await fetch(`/admin/del/${prdctId}`, {
         method: "PUT"
@@ -130,7 +130,7 @@
   });
 
   $('#productTable').on('click', 'button.btn.add', async function() {
-    console.log("burdayız")
+    
     var prdctId = $(this).closest('tr').find('td:first').text();
     const res = await fetch(`/admin/import/${prdctId}`, {
         method: "PUT"

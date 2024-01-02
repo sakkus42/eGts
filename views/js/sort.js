@@ -44,7 +44,7 @@ function searchTable() {
 
 function alphaSort(flag){
     var myDivs = $(".rowProduct");
-    console.log($('#sortText').text())
+
     if (flag){
         $('#sortText').text('Alfabetik (A-Z)')
     }else{

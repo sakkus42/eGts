@@ -51,11 +51,11 @@ class Product {
         const updateValues = [];
         for (const key in updatedData) {
             if (Object.hasOwnProperty.call(updatedData, key)){
-                console.log(Object.hasOwnProperty.call(updatedData, key));
+                
                 updateValues.push(`${key} = '${updatedData[key]}'`);
             }
         }
-        console.log(updateValues);
+        
         
         updateQuery += updateValues.join(', '); 
         updateQuery += ` WHERE id = ${id};`;
@@ -112,7 +112,6 @@ class Product {
     static getAllImportAndCategoryProduct(category, importFlag, slug){
         const excludedSlugsString = slug.map(slug => `'${slug}'`).join(', ');
         const sql = `SELECT * FROM products WHERE import = ${importFlag} AND category = "${category}" AND slug NOT IN (${excludedSlugsString})`;
-        console.log(sql);
         return db.execute(sql);
     }
 

@@ -91,8 +91,6 @@ class User {
     }
     
     static async validateUser(hash, password){
-        console.log(hash);
-        console.log(password);
         return  await bcrypt.compare(password, hash)
                 .then(res => {
                     return res;

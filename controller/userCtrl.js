@@ -25,7 +25,6 @@ const createUser = async (req, res, next) => {
         return;
     }
     if (!phoneregex.test(req.body.phone)){
-        console.log("sealmssszz");
         res.render('user', 
         {
             errorP: 'Geçersiz telefon',
@@ -37,7 +36,6 @@ const createUser = async (req, res, next) => {
         if (Object.hasOwnProperty.call(reqUser, key)) {
             const value = reqUser[key];
             if (regex.test(value)) {
-                console.log("selammssssszz");
                 res.render('user', 
                 {
                     user: reqUser 
@@ -60,7 +58,6 @@ const createUser = async (req, res, next) => {
         res.render("user", {errorP: "Bu telefon numarasına sahip kullanıcı zaten kayıtlı", user: reqUser});
         return;
     }else if (email.length != 0){
-        console.log("selam");
         res.render("user", {errorE: "Bu e-posta hali hazırda kullanılıyor", user: reqUser});
         return;
     }
@@ -111,7 +108,6 @@ const login = async (req, res, next) => {
 };
 
 const logout = async (req, res) => {
-    console.log("selam");
     res.clearCookie('jwt');
     res.redirect("/")
 };
@@ -129,7 +125,6 @@ const updateUser = async (req, res, next) => {
             user[key] = value;
         }
         if (key == "psw" && value != ""){
-            console.log(value);
             user[key] = await User.bcryptCrt(value);
         }
     }
@@ -199,7 +194,6 @@ const confirmMail = async (req, res) => {
                     console.log(error);
                     res.send('Mail Error! Try again')
                 } else {
-                    console.log('Mail Yollama işlemi çalıştı');
                     res.render('user', { confirm: "E-posta adresinize gelen mailden onaylama işlemini yapabilirsiniz." })
                 }
             });

@@ -95,7 +95,7 @@
               <div class="header-pay"> Sepet Tutarı </div>
               <div class="totalProducts">
                 <% if (totalDisc) { %>
-                  <span style="text-decoration: line-through;  color: rgba(255, 0, 0, 0.444); font-weight: 700; ">Sepet Toplam Ücreti: <%= totalDisc + totalOp%>TL</span>
+                  <span style="text-decoration: line-through;  color: rgba(255, 0, 0, 0.444); font-weight: 700; ">Sepet Toplam Ücreti: <%= totalDisc + totalOp %>TL</span>
                 <% } %>
                 <span style="color: #435062!important; font-weight:800; font-size: large;"> Sepet Toplam Ücreti: <%= total + totalOp %>TL</span>
               </div>
@@ -132,7 +132,6 @@
 </body>
 <script>
      function counter(title, count, newId){
-        console.log(title)
         fetch('/addBasket', ({
           method: 'POST',
           headers: {

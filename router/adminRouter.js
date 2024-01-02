@@ -46,11 +46,9 @@ router.post("/uploadImg/:id", authCtrl, isAdmin, async (req, res) => {
         }));
         const [product, _] = await Product.findById(id);
         const oldImg = product[0].images;
-        console.log(oldImg)
         if (oldImg) files = oldImg.concat(files);
         Product.saveImage(id, JSON.stringify(files));
     });
-    console.log("selam")
     res.redirect("/admin/products");
 })
 
@@ -68,7 +66,6 @@ router.get("/order", authenticateToken, authCtrl, isAdmin, async (req, res) => {
 
 router.get("/carrousel", authCtrl, isAdmin, async (req, res) => {
     const [all, _] = await Carrousel.getAll();
-    console.log(all);
     res.render('carrouselMaker', {all : all});
 });
 
@@ -95,7 +92,6 @@ router.get("/prdctMaker", authenticateToken, authCtrl, isAdmin, (req, res) => {
 router.get("/product/:slug", authenticateToken, authCtrl, isAdmin, async (req, res) => {
     const slug = req.params.slug;
     const [prdct, _] = await Product.findBySlug(slug);
-    console.log(prdct[0]);
     res.render("productUpdate", { prdct: prdct[0] });
 });
 

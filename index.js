@@ -15,8 +15,6 @@ const cors = require("cors");
 require('dotenv').config();
 
 
-const transporter  = require("./middleWare/mail");
-
 
 require("dotenv").config();
 app.set("view engine", "ejs");
@@ -50,6 +48,6 @@ app.use('/admin', adminRouter);
 app.use('/', mainRouter);
 
 
-app.listen(PORT, '192.168.1.3',(req, res) => {
+app.listen(PORT,(req, res) => {
     console.log(`Listen ${PORT} server`);
 });

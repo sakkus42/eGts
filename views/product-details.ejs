@@ -370,25 +370,21 @@ var checkboxes = document.querySelectorAll('.myCheckbox');
 
 checkboxes.forEach(function(checkbox) {
   checkbox.addEventListener('change', function() {
-    var option = this.dataset.option; // Seçeneğin adı
-    var price = this.dataset.price; // Fiyatı
+    var option = this.dataset.option; 
+    var price = this.dataset.price; 
     
-    console.log(option);
-    console.log(price);
-    // Gizli input alanlarını seçme
+    
     var optionsInput = document.querySelector('input[name="options[]"]');
     var priceInput = document.querySelector('input[name="prices[]"]');
-    // Checkbox işaretlendiğinde veya kaldırıldığında gizli input değerlerini güncelleme
+  
     if (this.checked) {
-      // Checkbox işaretlendiğinde gizli input alanlarına değerleri ekleme
-      optionsInput.value += option + ','; // Option'ı eklerken virgülle ayırabilirsiniz
-      priceInput.value += price + ','; // Fiyatı eklerken virgülle ayırabilirsiniz
+      
+      optionsInput.value += option + ',';
+      priceInput.value += price + ',';
     } else {
-      // Checkbox işareti kaldırıldığında gizli input değerlerini güncelleme
-      optionsInput.value = optionsInput.value.replace(option + ',', ''); // Option'ı listeden çıkarır
-      priceInput.value = priceInput.value.replace(price + ',', ''); // Fiyatı listeden çıkarır
-      console.log(optionsInput);
-      console.log(priceInput);
+      
+      optionsInput.value = optionsInput.value.replace(option + ',', ''); 
+      priceInput.value = priceInput.value.replace(price + ',', '');
     }
   });
 });

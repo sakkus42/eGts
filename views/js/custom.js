@@ -1,5 +1,5 @@
 function searchOpen(){
-    console.log(document.getElementsByClassName('searchInput')[0].style.display);
+    
     var header = document.querySelector('header');
     if (document.getElementsByClassName('searchInput')[0].style.display == '' || document.getElementsByClassName('searchInput')[0].style.display == 'none'){
         header.classList.add('sticky');
@@ -13,12 +13,10 @@ function searchOpen(){
 var btn = document.querySelectorAll(".clickBtn");
 
 btn.forEach(el => el.addEventListener("click", () => {
-    // console.log(document.getElementById("myFormSign").style.display);
     if (document.getElementById("myFormSign").style.display == "" || document.getElementById("myFormSign").style.display == "none"){
         document.getElementById("myForm").style.display = "none";
         document.getElementById("myFormSign").style.display = "flex";
     }else{
-        console.log("selam1");
         document.getElementById("myForm").style.display = "flex";
         document.getElementById("myFormSign").style.display = "none";
     };
@@ -49,15 +47,13 @@ $(".client_owl-carousel").owlCarousel({
 });
 
 
-// Header elementini seçme
+
 const header = document.querySelector('.headerBar');
 
-// Header elementinin orijinal pozisyonunu ve yüksekliğini alın
 const originalOffset = header.offsetTop;
 const headerHeight = header.offsetHeight;
 let lastScroll = 0;
 
-// Sayfa kaydırıldığında çalışacak olan fonksiyon
 function handleScroll() {
   const scrollPosition = window.scrollY || window.pageYOffset;
 
@@ -72,6 +68,5 @@ function handleScroll() {
   lastScroll = scrollPosition <= 0 ? 0 : scrollPosition; // Sayfanın en üstünde ise sıfırla
 }
 
-// Sayfa kaydırıldığında handleScroll fonksiyonunu çalıştır
 window.addEventListener('scroll', handleScroll);
 

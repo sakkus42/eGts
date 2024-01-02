@@ -30,6 +30,9 @@ function checkPhone(){
     const phoneregex = /^(\+90|0)?\s*(\(\d{3}\)[\s-]*\d{3}[\s-]*\d{2}[\s-]*\d{2}|\(\d{3}\)[\s-]*\d{3}[\s-]*\d{4}|\(\d{3}\)[\s-]*\d{7}|\d{3}[\s-]*\d{3}[\s-]*\d{4}|\d{3}[\s-]*\d{3}[\s-]*\d{2}[\s-]*\d{2})$/;
     const phone = document.querySelector('#phone');
     
+    if (phone.value == ''){
+        return;
+    }
     if (!phoneregex.test(phone.value)){
         document.querySelector('#phoenErr').style.display = 'block';
     }else {

@@ -160,7 +160,6 @@
 
 
     document.getElementById('plusColor').addEventListener('click', () => {
-      console.log("selam")
       const options = document.querySelector('.options-container');
       const inptOption = document.createElement('input');
       const inptPrice = document.createElement('input');
@@ -173,7 +172,7 @@
       inptOption.type = "text";
       inptOption.name = "options[]";
       inptOption.placeholder = "Opsiyon metni"
-      console.log(options.children.length - 2);
+      
       const lastChild = options.children[options.children.length - 2];
 
       options.insertBefore(

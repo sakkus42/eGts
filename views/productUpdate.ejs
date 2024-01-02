@@ -155,11 +155,10 @@
       inptColor.classList.add('form-control');
       inptColor.type = "text";
       inptColor.name = "array[]";
-      console.log(colorCont.children.length)
+      
       const lastChild = colorCont.children[colorCont.children.length - 2];
       colorCont.insertBefore(inptColor, lastChild);
       const lastChild2 = colorCont.children[colorCont.children.length - 2];
-      // colorCont.appendChild(inptColor);
       colorCont.insertBefore(document.createElement('br'), lastChild2);
     });
 

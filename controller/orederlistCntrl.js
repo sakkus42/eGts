@@ -51,8 +51,7 @@ const creatOrder = async (req, res, next) => {
         note: req.body.note,
     }
     for (let index = 0; index < basket.length; index++){
-        console.log("leng")
-        console.log(basket.length)
+        
         const [prdct] = await Product.findById(basket[index].id);
         if (prdct.length == 0){
             res.redirect('/');
@@ -269,7 +268,6 @@ const orderListstatistic = async (req, res) => {
         turnoverMonth[0],
         turnoverGeneral[0]
     ]
-    console.log(prdctAll)
     const [members] = await User.getAllUser();
     res.render("statistic", {
         turnoverDay:turnoverDay[0].total,

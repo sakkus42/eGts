@@ -44,7 +44,7 @@ const deleteImage = async (req, res) => {
         return !delImages.some(delImage => delImage.fileName === image.fileName);
     });
     delImages.some(delImage => fs.unlinkSync(`./views/images/product/${delImage.fileName}`))
-    console.log(remainingImages);
+    
     Product.saveImage(id, JSON.stringify(remainingImages));
 };
 
@@ -66,10 +66,8 @@ const updateProduct = async (req, res) => {
     }
     if (color.length !== oldProduct[0].color.length){
         prdct['color'] = JSON.stringify( color )
-        console.log(prdct['color'])
     }
     if (Object.keys(prdct).length !== 0){
-        console.log(prdct);
         await Product.update(id ,prdct);
     }
     res.redirect(`/admin/products`)
@@ -101,7 +99,6 @@ const campaignUpdate = async (req, res) => {
         }
     }
     if (Object.keys(prdct).length !== 0) {
-        console.log(prdct);
         await Product.update(id, prdct);
     }
     res.redirect('/admin/products');
@@ -109,13 +106,11 @@ const campaignUpdate = async (req, res) => {
 
 const addImport = async (req, res) => {
     const {id} = req.params;
-    console.log(id);
     const [product] = await Product.findById(id);
-    console.log(product);
+
     await Product.update(id, {
         import: product[0].import == 0 ? 1 : 0,
     });
-    console.log("finish");
     res.end();
 }
 
@@ -126,7 +121,6 @@ const searchProduct = async (req, res) => {
         res.render('ara', {data: []})
         return;
     }
-    console.log(searchKey)
     const [categoryPrdcts] = await Product.getAllProductByCategory(searchKey);
     const [titlePrdcts] = await Product.findByTitle(searchKey);
     const [brandPrdcts] = await Product.getAllBrand(searchKey);
