@@ -10,10 +10,6 @@ const { cntrlOptions } = require("../controller/options");
 const { creatOrder } = require("../controller/orederlistCntrl");
 
 
-
-
-
-
 router.post("/addBasket", (req, res) => {
     let {id, price, image, title, oldPrice, count, color, giftContent, options, prices, newId, slug} = req.body;
     if (options && options[0] !== 'undefined'){

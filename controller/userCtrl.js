@@ -171,7 +171,7 @@ const delUser = async (req, res) => {
 };
 
 const confirmMail = async (req, res) => {
-    res.render('welcome-mail', { path: `http://192.168.1.3:3001/user/${res.locals.id}`,imgPath: __dirname + '/../views/images/logo.png'}, function(err, html){ 
+    res.render('welcome-mail', { path: `http://89.252.184.18/user/${res.locals.id}`,imgPath: __dirname + '/../views/images/logo.png'}, function(err, html){ 
         if (err) {
             console.log('error rendering email template:', err) 
             return

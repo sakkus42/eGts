@@ -6,7 +6,7 @@ const productRouter = require("./router/productRouter.js")
 const adminRouter = require("./router/adminRouter.js")
 const con = require("./config.js");
 const Product = require("./model/Product.js");
-const PORT = 3001;
+const PORT = 8800;
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 const path = require('path');
@@ -39,7 +39,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(cookieParser())
 
 app.post('/emailOnay/', function(req,res){
-  
   res.end();
 });
 app.use('/user', userRouter);
@@ -48,6 +47,6 @@ app.use('/admin', adminRouter);
 app.use('/', mainRouter);
 
 
-app.listen(PORT,(req, res) => {
+app.listen(8800,(req, res) => {
     console.log(`Listen ${PORT} server`);
 });
